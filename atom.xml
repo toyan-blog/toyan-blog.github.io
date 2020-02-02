@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://blog.toyan.top/"/>
+  <link href="https://toyan.top/"/>
   <updated>2020-02-01T07:09:39.293Z</updated>
-  <id>https://blog.toyan.top/</id>
+  <id>https://toyan.top/</id>
   
   <author>
     <name>Toyan</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://blog.toyan.top/2020/02/01/hello-world/"/>
-    <id>https://blog.toyan.top/2020/02/01/hello-world/</id>
+    <link href="https://toyan.top/2020/02/01/hello-world/"/>
+    <id>https://toyan.top/2020/02/01/hello-world/</id>
     <published>2020-01-31T16:00:00.000Z</published>
     <updated>2020-02-01T07:09:39.293Z</updated>
     
@@ -35,10 +35,10 @@
     </summary>
     
     
-      <category term="hexo" scheme="https://blog.toyan.top/categories/hexo/"/>
+      <category term="hexo" scheme="https://toyan.top/categories/hexo/"/>
     
     
-      <category term="hexo" scheme="https://blog.toyan.top/tags/hexo/"/>
+      <category term="hexo" scheme="https://toyan.top/tags/hexo/"/>
     
   </entry>
   
