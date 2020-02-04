@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Hello World</title>
+      <link href="/hello-world/"/>
+      <url>/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2><h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>sql-summary</title>
       <link href="/sql-summary/"/>
       <url>/sql-summary/</url>
@@ -31,58 +56,6 @@
     
     
     <entry>
-      <title>操作系统</title>
-      <link href="/system-summary/"/>
-      <url>/system-summary/</url>
-      
-        <content type="html"><![CDATA[<h2 id="linux内核空间和用户空间详解"><a class="markdownIt-Anchor" href="#linux内核空间和用户空间详解"></a> Linux内核空间和用户空间详解</h2><h3 id="基础知识"><a class="markdownIt-Anchor" href="#基础知识"></a> 基础知识</h3><p>Linux简化了分段机制，使得虚拟地址与线性地址总是一致，因此，Linux的虚拟地址空间也为0~4G。Linux内核将这4G字节的空间分为两部分。**将较高的1G字节（从虚拟地址0xC0000000到0xFFFFFFFF），供内核使用，称为“内核空间”。而将较低的3G字节（从虚拟地址 0x00000000到0xBFFFFFFF），供各个进程使用，称为“用户空间”。**因为各个进程可以通过系统调用进入内核，因此，Linux内核是系统内的所有进程共享。于是，从具体进程的角度来看，每个进程可以拥有4G字节的虚拟空间。</p><p>**Linux使用两级保护机制：0级供内核使用，3级供用户程序使用。**每个进程有各自的私有用户空间（0~3G），这个空间对系统中的其他进程是不可见的。最高的1GB字节虚拟内核空间则为所有进程以及内核所共享。</p><blockquote><p>内核空间中存放的是内核代码和数据，而进程的用户空间中存放的是用户程序的代码和数据。不管是内核空间还是用户空间，它们都处于虚拟空间中。</p></blockquote><p>虽然内核空间占据了每个虚拟空间中的最高1GB字节，但映射到物理内存却总是从最低地址（0x00000000）开始。对内核空间来说，其地址映射是很简单的线性映射，0xC0000000就是物理地址与线性地址之间的位移量，在Linux代码中就叫做PAGE_OFFSET。</p><p><strong>常见问题：</strong><br />1、内核空间和用户空间之间如何进行通讯？<br />一般通过系统调用进行通信<br />2、如何判断一个驱动是用户模式还是内核模式驱动？判断的标志是什么？<br />用户空间模式的驱动一般通过系统调用来完成对硬件的访问，如通过系统调用将驱动的io空间映射到用户空间等。<strong>因此，主要的判断依据就是系统调用。</strong></p><h3 id="内核态和用户态"><a class="markdownIt-Anchor" href="#内核态和用户态"></a> 内核态和用户态</h3><p>当一个任务（进程）执行系统调用而陷入内核代码中执行时，我们就称进程处于内核运行态（或简称为内核态）。此时处理器处于特权级最高的（0级）内核代码中执行。当进程处于内核态时，执行的内核代码会使用当前进程的内核栈。每个进程都有自己的内核栈。当进程在执行用户自己的代码时，则称其处于用户运行态（用户态）。即此时处理器在特权级最低的（3级）用户代码中运行。当正在执行用户程序而突然被中断程序中断时，此时用户程序也可以象征性地称为处于进程的内核态。因为中断处理程序将使用当前进程的内核栈。这与处于内核态的进程的状态有些类似。</p><h3 id="进程上下文和中断上下文"><a class="markdownIt-Anchor" href="#进程上下文和中断上下文"></a> 进程上下文和中断上下文</h3><p>处理器总处于以下状态中的一种：<br />1、内核态，运行于进程上下文，内核代表进程运行于内核空间；<br />2、内核态，运行于中断上下文，内核代表硬件运行于内核空间；<br />3、用户态，运行于用户空间。<br />用户空间的应用程序，通过系统调用，进入内核空间。这个时候用户空间的进程要传递很多变量、参数的值给内核，内核态运行的时候也要保存用户进程的一些寄存器值、变量等。所谓的“进程上下文”，可以看作是用户进程传递给内核的这些参数以及内核要保存的那一整套的变量和寄存器值和当时的环境等。<br />硬件通过触发信号，导致内核调用中断处理程序，进入内核空间。这个过程中，硬件的一些变量和参数也要传递给内核，内核通过这些参数进行中断处理。所谓的“中断上下文”，其实也可以看作就是硬件传递过来的这些参数和内核需要保存的一些其他环境（主要是当前被打断执行的进程环境）。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 基础知识总结 </category>
-          
-          <category> 操作系统 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 操作系统 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/hello-world/"/>
-      <url>/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2><h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> hexo </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>排序算法</title>
       <link href="/algorithm-sort/"/>
       <url>/algorithm-sort/</url>
@@ -102,6 +75,33 @@
         <tags>
             
             <tag> 算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>操作系统</title>
+      <link href="/system-summary/"/>
+      <url>/system-summary/</url>
+      
+        <content type="html"><![CDATA[<h2 id="linux内核空间和用户空间详解"><a class="markdownIt-Anchor" href="#linux内核空间和用户空间详解"></a> Linux内核空间和用户空间详解</h2><h3 id="基础知识"><a class="markdownIt-Anchor" href="#基础知识"></a> 基础知识</h3><p>Linux简化了分段机制，使得虚拟地址与线性地址总是一致，因此，Linux的虚拟地址空间也为0~4G。Linux内核将这4G字节的空间分为两部分。**将较高的1G字节（从虚拟地址0xC0000000到0xFFFFFFFF），供内核使用，称为“内核空间”。而将较低的3G字节（从虚拟地址 0x00000000到0xBFFFFFFF），供各个进程使用，称为“用户空间”。**因为各个进程可以通过系统调用进入内核，因此，Linux内核是系统内的所有进程共享。于是，从具体进程的角度来看，每个进程可以拥有4G字节的虚拟空间。</p><p>**Linux使用两级保护机制：0级供内核使用，3级供用户程序使用。**每个进程有各自的私有用户空间（0~3G），这个空间对系统中的其他进程是不可见的。最高的1GB字节虚拟内核空间则为所有进程以及内核所共享。</p><blockquote><p>内核空间中存放的是内核代码和数据，而进程的用户空间中存放的是用户程序的代码和数据。不管是内核空间还是用户空间，它们都处于虚拟空间中。</p></blockquote><p>虽然内核空间占据了每个虚拟空间中的最高1GB字节，但映射到物理内存却总是从最低地址（0x00000000）开始。对内核空间来说，其地址映射是很简单的线性映射，0xC0000000就是物理地址与线性地址之间的位移量，在Linux代码中就叫做PAGE_OFFSET。</p><p><strong>常见问题：</strong><br />1、内核空间和用户空间之间如何进行通讯？<br />一般通过系统调用进行通信<br />2、如何判断一个驱动是用户模式还是内核模式驱动？判断的标志是什么？<br />用户空间模式的驱动一般通过系统调用来完成对硬件的访问，如通过系统调用将驱动的io空间映射到用户空间等。<strong>因此，主要的判断依据就是系统调用。</strong></p><h3 id="内核态和用户态"><a class="markdownIt-Anchor" href="#内核态和用户态"></a> 内核态和用户态</h3><p>当一个任务（进程）执行系统调用而陷入内核代码中执行时，我们就称进程处于内核运行态（或简称为内核态）。此时处理器处于特权级最高的（0级）内核代码中执行。当进程处于内核态时，执行的内核代码会使用当前进程的内核栈。每个进程都有自己的内核栈。当进程在执行用户自己的代码时，则称其处于用户运行态（用户态）。即此时处理器在特权级最低的（3级）用户代码中运行。当正在执行用户程序而突然被中断程序中断时，此时用户程序也可以象征性地称为处于进程的内核态。因为中断处理程序将使用当前进程的内核栈。这与处于内核态的进程的状态有些类似。</p><h3 id="进程上下文和中断上下文"><a class="markdownIt-Anchor" href="#进程上下文和中断上下文"></a> 进程上下文和中断上下文</h3><p>处理器总处于以下状态中的一种：<br />1、内核态，运行于进程上下文，内核代表进程运行于内核空间；<br />2、内核态，运行于中断上下文，内核代表硬件运行于内核空间；<br />3、用户态，运行于用户空间。<br />用户空间的应用程序，通过系统调用，进入内核空间。这个时候用户空间的进程要传递很多变量、参数的值给内核，内核态运行的时候也要保存用户进程的一些寄存器值、变量等。所谓的“进程上下文”，可以看作是用户进程传递给内核的这些参数以及内核要保存的那一整套的变量和寄存器值和当时的环境等。<br />硬件通过触发信号，导致内核调用中断处理程序，进入内核空间。这个过程中，硬件的一些变量和参数也要传递给内核，内核通过这些参数进行中断处理。所谓的“中断上下文”，其实也可以看作就是硬件传递过来的这些参数和内核需要保存的一些其他环境（主要是当前被打断执行的进程环境）。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 基础知识总结 </category>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
             
         </tags>
       
