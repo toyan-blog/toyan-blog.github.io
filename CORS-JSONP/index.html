@@ -97,12 +97,14 @@
 <li>通过JS在页面中append如下标签</li>
 </ol>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"application/javascript"</span> <span class="attr">src</span>=<span class="string">"http://www.b.com/test?callback=parseResponse"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>增加该标签之后，浏览器就会立即去请求这个url，由于<code>&lt;script src=&quot;&quot;&gt;</code>方式是不受同源策略限制的，可以避免跨域限制<br />
-2. 服务端收到callback参数之后，将它拼接在返回的数据中，返回的数据如下：</p>
+<p>增加该标签之后，浏览器就会立即去请求这个url，由于<code>&lt;script src=&quot;&quot;&gt;</code>方式是不受同源策略限制的，可以避免跨域限制。</p>
+<ol start="2">
+<li>服务端收到callback参数之后，将它拼接在返回的数据中，返回的数据如下：</li>
+</ol>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parseResponse(&#123;"name":"hax","gender":"Male"&#125;);</span><br></pre></td></tr></table></figure>
 <ol start="3">
-<li>这样返回之后，就调用页面上的<code>parseResponse</code>方法，就达到了数据处理的目的</li>
-<li>最后将刚刚新增加到页面中的<code>&lt;script&gt;</code>元素删除</li>
+<li>这样返回之后，就调用页面上的<code>parseResponse</code>方法，就达到了数据处理的目的。</li>
+<li>最后将刚刚新增加到页面中的<code>&lt;script&gt;</code>元素删除。</li>
 </ol>
 <h2 id="采用jsonp解决跨域问题"><a class="markdownIt-Anchor" href="#采用jsonp解决跨域问题"></a> 采用jsonp解决跨域问题</h2>
 <p>由于本人技术水平有限，也在网上找了许多方案，但是大多没有成功（主要自己太菜了），最后结合了多个博客的讲解以及尝试，最后使用jsonp成功解决了自己遇到的问题，不过写这篇博客距离当时解决所隔时间太长，无法列出当时帮助到自己的大神们，求谅解。<br></p>
