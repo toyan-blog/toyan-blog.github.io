@@ -1,0 +1,648 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="计算机网络总结"><meta name="keywords" content="计算机网络"><meta name="author" content="Toyan"><meta name="copyright" content="Toyan"><title>计算机网络总结 | ToyanのBlog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c61658fe357dc669ee95b5bd4e25caad";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="dns-prefetch" href="http://ta.qq.com"><script>(function() {
+   var hm = document.createElement("script");
+   hm.src = "https://tajs.qq.com/stats?sId=66513922";
+   var s = document.getElementsByTagName("script")[0];
+   s.parentNode.insertBefore(hm, s);
+ })();</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="ToyanのBlog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-tcp报头格式"><span class="toc-number">1.</span> <span class="toc-text"> 一. TCP报头格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-tcp的三次握手与四次挥手"><span class="toc-number">2.</span> <span class="toc-text"> 二. TCP的三次握手与四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-udp报头格式"><span class="toc-number">3.</span> <span class="toc-text"> 三. UDP报头格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-tcpudp区别"><span class="toc-number">4.</span> <span class="toc-text"> 四. TCP&#x2F;UDP区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五-http状态码"><span class="toc-number">5.</span> <span class="toc-text"> 五. HTTP状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六-http协议"><span class="toc-number">6.</span> <span class="toc-text"> 六. HTTP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七-osi协议-tcpip协议以及每层对应的协议"><span class="toc-number">7.</span> <span class="toc-text"> 七. OSI协议、TCP&#x2F;IP协议以及每层对应的协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#八-session机制-cookie机制"><span class="toc-number">8.</span> <span class="toc-text"> 八. session机制、cookie机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#九-打开网页到页面显示之间的过程"><span class="toc-number">9.</span> <span class="toc-text"> 九. 打开网页到页面显示之间的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dns解析"><span class="toc-number">9.1.</span> <span class="toc-text"> DNS解析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#解析过程"><span class="toc-number">9.1.1.</span> <span class="toc-text"> 解析过程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dns优化"><span class="toc-number">9.1.2.</span> <span class="toc-text"> DNS优化</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcp连接"><span class="toc-number">9.2.</span> <span class="toc-text"> TCP连接</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#https协议"><span class="toc-number">9.2.1.</span> <span class="toc-text"> HTTPS协议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#http请求"><span class="toc-number">9.2.2.</span> <span class="toc-text"> HTTP请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#服务器处理请求并返回http报文"><span class="toc-number">9.2.3.</span> <span class="toc-text"> 服务器处理请求并返回HTTP报文</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#浏览器解析渲染页面"><span class="toc-number">9.3.</span> <span class="toc-text"> 浏览器解析渲染页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#web优化"><span class="toc-number">9.4.</span> <span class="toc-text"> Web优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十-http和https区别https在请求时额外的过程https是如何保证数据安全的"><span class="toc-number">10.</span> <span class="toc-text"> 十. http和https区别，https在请求时额外的过程，https是如何保证数据安全的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十一-ip地址子网划分"><span class="toc-number">11.</span> <span class="toc-text"> 十一. IP地址子网划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十二-tcp如何保证数据的可靠传输的这个问题可以引申出很多子问题拥塞控制慢开始-拥塞避免-快重传-滑动窗口协议-停止等待协议-超时重传机制"><span class="toc-number">12.</span> <span class="toc-text"> 十二. TCP如何保证数据的可靠传输的（这个问题可以引申出很多子问题，拥塞控制慢开始、拥塞避免、快重传、滑动窗口协议、停止等待协议、超时重传机制）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#十三-长连接与短连接"><span class="toc-number">13.</span> <span class="toc-text"> 十三. 长连接与短连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-http协议和tcp协议"><span class="toc-number">13.1.</span> <span class="toc-text"> 1. HTTP协议和TCP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-http协议的长连接和短连接"><span class="toc-number">13.2.</span> <span class="toc-text"> 2. HTTP协议的长连接和短连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-tcp长连接和短连接"><span class="toc-number">13.3.</span> <span class="toc-text"> 3. TCP长连接和短连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-长连接和短连接的生命周期"><span class="toc-number">13.4.</span> <span class="toc-text"> 4. 长连接和短连接的生命周期</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-怎样维护长连接或者检查中断"><span class="toc-number">13.5.</span> <span class="toc-text"> 5.  怎样维护长连接或者检查中断</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">15</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">13</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">18</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">计算机网络总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-07</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">基础知识总结</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">12.3k</span><span class="post-meta__separator">|</span><span>Reading time: 38 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h3 id="一-tcp报头格式"><a class="markdownIt-Anchor" href="#一-tcp报头格式"></a> 一. TCP报头格式</h3>
+<p>定义：TCP传输控制协议是一种面向连接的、可靠的、基于字节流的传输层协议。<br />
+<img src="http://img.blog.csdn.net/20140609125220296?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYTE5ODgxMDI5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="图一.TCP报文格式" /><br />
+图一是TCP报文格式，下面是对各参数的解释</p>
+<ol>
+<li>源端口号和目的端口号：TCP报头中的源端口号和目的端口号同IP数据报中的源IP与目的IP唯一确定一条TCP连接</li>
+<li>序号：用来标识TCP发端向TCP收端发送的数据字节流</li>
+<li>确认序号：ACK标志位为1时确认序号才有效（即不为0）；一旦连接建立，该值将始终发送</li>
+<li>首部长度：报文头长度(单位：bit)/32<br />
+例子：1000（转化为十进制为8，8 * 32/8 = 32，该报文报头长度为32个字节）<br />
+存在该字段是因为TCP报头中任选字段长度可变<br />
+报头不包含任何任选字段则长度是20字节；4位所能表示的最大值为1111，转换为十进制是15，15*32/8 = 60，故报头最大长度是60字节</li>
+<li>保留：占6位，保留为今后使用，目前应置为0</li>
+<li>控制位：6位</li>
+</ol>
+<ul>
+<li>URG：紧急指针有效性标志</li>
+<li>ACK：确认序号有效性标志，一旦一个连接建立起来，该标志位总被置为1，即除了请求建立连接报文（仅设置SYN标志位为1），其他所有报文的该标志位总为1</li>
+<li>PSH（PuSH）：推送标志位，接收方应尽快将报文段提交至应用层，而不再等到整个缓存都填满了后再向上交付</li>
+<li>RST（ReSeT）：重置连接标志位，当RST=1时，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立运输连接</li>
+<li>SYN：同步序号标志</li>
+<li>FIN：传输数据结束标志</li>
+</ul>
+<ol start="7">
+<li>窗口大小（2字节）：TCP流量控制通过连接的每一个端声明窗口大小进行控制（接受缓冲区大小）<br />
+由于2字节能够表示的最大正整数为65535，故窗口最大值为65535</li>
+<li>检验和（2字节）：检验和覆盖整个TCP报文段；强制字段，有发送端计算存储，有接收端进行验证</li>
+<li>紧急指针（2字节）：当URG=1时，紧急指针才有效</li>
+<li>选项（0-40字节）：当没有使用“选项”时，TCP的首部长度是20字节</li>
+</ol>
+<h3 id="二-tcp的三次握手与四次挥手"><a class="markdownIt-Anchor" href="#二-tcp的三次握手与四次挥手"></a> 二. TCP的三次握手与四次挥手</h3>
+<p><img src="http://img.my.csdn.net/uploads/201108/7/0_131271823564Rx.gif" alt="" /></p>
+<ol>
+<li>三次握手：<br />
+**第一次握手：**主机A发送位码为SYN=1，随机产生seq number=10001的数据包到服务器，主机B由SYN=1知道A要求建立联机，此时状态为SYN_SENT；<br />
+**第二次握手：**主机B收到请求后要确认联机信息，向A发送ack number=（主机A的seq+1），SYN=1，ACK=1，随机产生seq number=20001的包，此时状态有LISTEN变为SYN_RECV；<br />
+**第三次握手：**主机A收到后检查ack number是否正确，即第一次发送的seq number + 1，以及位码ack是否为1，若正确，主机A会再次发送ack number = （主机B的seq+1），ACK=1，主机B收到后确认seq值与ack=1则连接建立成功，双方状态established<br />
+完成三次握手，主机A与主机B开始传送数据<br />
+<strong>各个状态名称与含义</strong></li>
+</ol>
+<ul>
+<li>CLOSED：表示初始状态</li>
+<li>LISTEN：表示服务器端的某个socket处于监听状态，可以接受连接了</li>
+<li>SYN_RECV：这个状态表示接受到了SYN报文，在正常情况下，这个状态是服务端的socket在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂，基本上用netstat你是很难看到这个状态的。这种状态时，当收到客户端的ACK报文后，它会进入到established</li>
+<li>SYN_SENT：这个状态与SYN_RECV遥相呼应，当客户端socket执行connect连接时，它首先发送SYN报文，因此也随机它会进入到了SYN_SENT状态，并等到服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文</li>
+<li>ESTABLISHED：表示连接已经建立了。</li>
+</ul>
+<ol start="2">
+<li>四次挥手：<br />
+<img src="https://upload-images.jianshu.io/upload_images/1641067-5ed8bf6c24244b4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="" /></li>
+</ol>
+<p>假设Client端发起中断请求，也就是发送FIN报文。Server端接到FIN报文后，意思是说“我client端要发给你了”，但是如果你还没有数据要发送完成，则不必急着关闭Socket，可以继续发送数据。所以你先发送ACK，“告诉Client端，你的请求我收到了，但是我还没准备好，请继续你等我的消息”。这个时候Client端就进入FIN_WAIT状态，继续等待Server端的FIN报文。当Server端确定数据已发送完成，则向Client端发送FIN报文，“告诉Client端，好了，我这边数据发完了，准备好关闭连接了”。Client端收到FIN报文后，“就知道可以关闭连接了，但是它还是不相信网络，怕Server端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传。”，Server端收到ACK后，“就知道可以断开连接了”。Client端等待2MSL（报文最大生存时间）后仍然没有收到回复，则证明Server端已正常关闭，那好，我Client端也可以关闭连接了。这样，TCP连接就这样关闭了。<br />
+<strong>各个状态名称与含义：</strong></p>
+<ul>
+<li>FIN_WAIT_1：其实FIN_WAIT_1与FIN_WAIT_2状态的真正含义都是表示等待对方的FIN报文。这两种状态的区别是：FIN_WAIT_1状态实际上是当Socket在established状态时，它想主动关闭连接，向对方发送FIN报文，此时该socket即进入FIN_WAIT_1状态。而当对方回应ACK报文后，则进入FIN_WAIT_2状态。当然在实际的正常情况下，无论对方何种情况下，都应该马上回应ACK报文，所以FIN_WAIT_1状态比较难见，而FIN_WAIT_2状态可以用netstat看到。</li>
+<li>FIN_WAIT_2：实际上该状态下的socket，表示半连接，也即有一方要求close连接，但另外还告诉对方，我暂时还有些数据要传，稍后再关闭连接。</li>
+<li>TIME_WAIT：表示收到了对方的FIN报文，并发送出了ACK报文，就等2MSL后即可回到CLOSED可用状态了。如果FIN_WAIT_1状态下，收到了对方同时带FIN标志和ACK标志的报文时，则可直接进入TIME_WAIT状态，而无需经过FIN_WAIT_2状态。</li>
+</ul>
+<p><strong>下面两个问题记牢</strong></p>
+<hr />
+<p><strong>为什么建立连接协议是三次握手，而关闭连接却是四次握手呢？</strong><br />
+*第一种回答：*这是因为服务端的listen状态下的socket当收到SYN报文的连接请求时后，它可以把ACK和SYN（ACK起到应答作用，而SYN起同步作用）放在一个报文里来发送。但关闭连接时，当收到对方的FIN报文通知时，它仅仅表示对方没有数据发送给你了，但未必你所有的数据都全部发送给对方了，所以你可以未必会关闭socket连接，也即你可能还需要发送一些数据给对方之后，在发送FIN报文给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文和FIN报文多数情况下都是分开发送的。<br />
+*第二种回答：*因为当Server端收到Client端的SYN连接请求后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭Socket，所以只能先回复一个ACK报文，告诉client端，“你发送的FIN报文我收到了”。只有等到Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送，故需要四次挥手。</p>
+<p><strong>为什么TIME_WAIT状态还需要等待2MSL后才能返回到CLOSED状态？</strong><br />
+答：因为虽然双方都同意关闭连接了，而且握手的4个报文也都发送完毕，按理可以直接回到CLOSED状态（就好比从SYN_SENT状态到ESTABLISH状态那样），但是我们必须假想网络是不可靠的，有可能最后一个ACK丢失。所以TIME_WAIT状态就是用来重发可能丢失的ACK报文。</p>
+<h3 id="三-udp报头格式"><a class="markdownIt-Anchor" href="#三-udp报头格式"></a> 三. UDP报头格式</h3>
+<p><img src="http://img.my.csdn.net/uploads/201204/10/1334069453_5734.png" alt="" /><br />
+源端口号：在需要对方回信时选用。不需要是可全为0<br />
+目的端口号：这在终点交付报文时必须要使用到<br />
+UDP长度：UDP报文的字节长度（包括首部和数据）<br />
+UDP校验和：检验UDP首部和数据部分的正确性</p>
+<h3 id="四-tcpudp区别"><a class="markdownIt-Anchor" href="#四-tcpudp区别"></a> 四. TCP/UDP区别</h3>
+<p><em>课本：</em><br />
+UDP在传输数据之前<strong>不需要先建立连接</strong>。远程主机的运输层在收到UDP报文后，不需要给出任何确认。虽然UDP不提供可靠交付，但在某些情况下UDP却是一种最有效的工作方式。<br />
+TCP则<strong>提供面向连接的服务</strong>。在传送数据之前必须先建立连接，数据传送结束后要释放连接。TCP不提供广播或多播服务。由于TCP要提供可靠地、面向连接的运输服务，因此不可避免地增加了许多的开销，如确认、流量控制、计时器以及连接管理等。这不仅使协议数据单元的首部增大很大，还要占用许多的处理机资源。<br />
+<em>博客答案：</em></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是否连接</td>
+<td>面向连接</td>
+<td>面向非连接</td>
+</tr>
+<tr>
+<td>传输可靠性</td>
+<td>可靠的</td>
+<td>不可靠的</td>
+</tr>
+<tr>
+<td>应用场合</td>
+<td>传输大量的数据</td>
+<td>少量数据</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>慢</td>
+<td>块</td>
+</tr>
+</tbody>
+</table>
+<p>OSI和TCP/IP模型在传输层定义两种传输协议：TCP（传输控制协议）和UDP（用户数据报协议）。<br />
+<strong>UDP</strong><br />
+UDP和TCP的主要区别在于UDP不一定提供可靠的数据传输。事实上，该协议不能保证数据准确无误地到达目的地。UDP在很多方面非常有效。当某个程序的目标是尽快地传输尽可能多的信息时（其中任意给定的重要性相对较低），可使用UDP。<br />
+许多程序将使用单独的TCP连接和单独的UDP连接。重要的状态信息随可靠的TCP连接发送，而主数据留通过UDP发送。<br />
+<strong>TCP</strong><br />
+TCP的目的是提供可靠的数据传输，并在相互进行通信的设备或服务之间保持一个虚拟连接。TCP在数据包接收无序、丢失或在交付期间被破坏时，负责数据恢复。它通过为其发送的每个数据包提供一个序号来完成此恢复。较低的网络层会将每个数据包视为一个独立的单元，因此，数据包可以沿完全不同的路径发送，即使它们都是同一消息的组成部分。这种路由与网络层处理分段和重新组装数据包的方式非常相似，只是级别更高而已。<br />
+为确保正确地接收数据，TCP要求在目标计算机成功收到数据时发回一个确认（即ACK）。如果在某个时限内未收到相应的ACK，将重新传送数据包。如果网络阻塞，这种重新传送将导致发送的数据包重复。但是，接收计算机可使用数据包的序号来确认它是否为重复数据包，并在必要时丢弃它。<br />
+<strong>TCP与UDP的选择：</strong><br />
+如果比较UDP包和TCP包的结构，很明显UDP包不具备TCP包复杂的可靠性和控制机制。与TCP协议相同，UDP的源端口数和目的端口数也都支持一台主机上的多个应用。一个16位的UDP包包含了一个字节长的头部和数据的长度，校验码域使其可以进行整体校验。（许多应用只支持UDP，如：多媒体数据流，不产生任何额外的数据，即使知道有破坏的包也不进行重发。）<br />
+很明显，当数据传输的性能必须让位于数据传输的完整性、可控制性和可靠性时，TCP协议是首选。当强调性能而不是传输的完整性时，如：音频和多媒体应用，UDP是最好的选择。在数据传输时间很短，以至于此前的连接过程成为整个流量主体的情况下，UDP较低的开销使其有更好的机会去传送管理数据。TCP丰富的功能有时会导致不可预料的性能低下，但是我们相信在不远的将来，TCP可靠的点对点将会用于绝大多数的网络应用。<br />
+<strong>TCP协议和UDP协议特性区别总结：</strong></p>
+<ul>
+<li>TCP协议在传送数据段的时候要给段标号；UDP不需要</li>
+<li>TCP协议可靠；UDP协议不可靠</li>
+<li>TCP协议是面向连接的；UDP协议采用无连接</li>
+<li>TCP协议负载较高，采用虚电路；UDP采用无连接</li>
+<li>TCP协议的发送方要确认接收方是否收到数据段（3次握手协议）</li>
+<li>TCP协议采用窗口技术和流控制</li>
+</ul>
+<h3 id="五-http状态码"><a class="markdownIt-Anchor" href="#五-http状态码"></a> 五. HTTP状态码</h3>
+<p>当浏览器访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头（server header）用以响应浏览器的请求。<br />
+HTTP状态码的英文为HTTP Status Code。<br />
+下面是常见的HTTP状态码：</p>
+<ul>
+<li>200 请求成功</li>
+<li>301 资源（网页等）被永久转移到其他URL</li>
+<li>404 请求的资源（网页等）不存在</li>
+<li>500 内部服务器错误<br />
+<strong>状态码分类</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>分类描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1**</td>
+<td>信息，服务器收到请求，需要请求者进行执行操作</td>
+</tr>
+<tr>
+<td>2**</td>
+<td>成功，操作被成功接收并处理</td>
+</tr>
+<tr>
+<td>3**</td>
+<td>重定向，需要进一步的操作以完成请求</td>
+</tr>
+<tr>
+<td>4**</td>
+<td>客户端错误，请求包含语法错误或无法完成请求</td>
+</tr>
+<tr>
+<td>5**</td>
+<td>服务器错误，服务器在处理请求的过程中发生了错误</td>
+</tr>
+</tbody>
+</table>
+<p><strong>状态码列表</strong></p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>Continue</td>
+<td>继续，客户端应继续其请求</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Switching Protocols</td>
+<td>切换协议。服务器根据客户端的请求切换协议。只能切换到HTTP的新版本协议</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>请求成功。一般用于GET和POST请求</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>已创建。成功请求并创建了新的资源</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Accepted</td>
+<td>已接受。已经接受请求，但未处理完成</td>
+</tr>
+<tr>
+<td>203</td>
+<td>Non-Authoritative Information</td>
+<td>非授权信息。请求成功，但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td>205</td>
+<td>Reset Content</td>
+<td>重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清楚浏览器的表单域</td>
+</tr>
+<tr>
+<td>206</td>
+<td>Partial Content</td>
+<td>部分内容。服务器成功处理了部分GET请求</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>300</td>
+<td>Multiple Choices</td>
+<td>多种选择。请求的资源可包含多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Moved Permanently</td>
+<td>永久移动。请求的资源已被永久的移动到新URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Found</td>
+<td>临时移动。与301类似，但资源只是临时被移动，客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td>303</td>
+<td>See Other</td>
+<td>查看其它地址，与301、302类似，如果最初的请求是POST，那么新文档要用GET找到</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Not Modified</td>
+<td>未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
+</tr>
+<tr>
+<td>305</td>
+<td>Use Proxy</td>
+<td>使用代理，所请求的资源必须通过代理访问</td>
+</tr>
+<tr>
+<td>306</td>
+<td>Unused</td>
+<td>已经被废弃的HTTP状态码</td>
+</tr>
+<tr>
+<td>307</td>
+<td>Temporary Redirect</td>
+<td>临时重定向。与302类似，使用GET请求重定向</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Payment Required</td>
+<td>保留</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器理解请求客户端的请求，但是拒绝执行此请求</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>服务器无法根据客户端的请求找到资源（网页），通过此代码，网站设计人员可设置“您所请求的资源无法找到”的个性页面</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed</td>
+<td>客户端请求中的方法被禁止</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable</td>
+<td>服务器无法根据客户端请求的内容特性完成请求</td>
+</tr>
+<tr>
+<td>407</td>
+<td>Proxy Authentication Required</td>
+<td>请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
+</tr>
+<tr>
+<td>408</td>
+<td>Request Time-out</td>
+<td>服务器等待客户端发送的请求时间太长，超时</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict</td>
+<td>服务器完成客户端的PUT请求是可能返回此代码，服务器处理请求时发生了冲突</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone</td>
+<td>客户端请求的资源已经不存在，410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
+</tr>
+<tr>
+<td>411</td>
+<td>Length Required</td>
+<td>服务器无法处理客户端发送的不带Content-Length的请求信息</td>
+</tr>
+<tr>
+<td>412</td>
+<td>Precondition Failed</td>
+<td>客户端请求信息的先决条件错误</td>
+</tr>
+<tr>
+<td>413</td>
+<td>Request Entity Too Large</td>
+<td>由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连接请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
+</tr>
+<tr>
+<td>414</td>
+<td>Request-URI Too Large</td>
+<td>请求的URI过长（URI通常为网址），服务器无法处理</td>
+</tr>
+<tr>
+<td>415</td>
+<td>Unsupported Media Type</td>
+<td>服务器无法处理请求附带的媒体格式</td>
+</tr>
+<tr>
+<td>416</td>
+<td>Requested range not satisfiable</td>
+<td>客户端请求的范围无效</td>
+</tr>
+<tr>
+<td>417</td>
+<td>Expectation Failed</td>
+<td>服务器无法满足Expect的请求头信息</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器内部错误，无法完成请求</td>
+</tr>
+<tr>
+<td>501</td>
+<td>Not Implemented</td>
+<td>服务器不支持请求的功能，无法完成请求</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+<td>充当网关或代理的服务器，从远端服务器接收到了一个无效的请求</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Gateway Time-out</td>
+<td>充当网关或代理的服务器，未及时从远端服务器获取请求</td>
+</tr>
+<tr>
+<td>505</td>
+<td>HTTP Version not supported</td>
+<td>服务器不支持请求的HTTP协议的版本，无法完成处理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="六-http协议"><a class="markdownIt-Anchor" href="#六-http协议"></a> 六. HTTP协议</h3>
+<p>HTTP协议是Hyper Text Transfer Protocol（超文本传输协议）的缩写，是用于从万维网（WWW：World Wide Web）服务器传输超文本到本地浏览器的传送协议。<br />
+HTTP是一个基于TCP/IP通信协议来传递数据（HTML文件、图片文件、查询结果等）。<br />
+<strong>主要特点</strong></p>
+<ol>
+<li>简单快速：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、POST。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象，正在传输的类型由Content-Type加以标记</li>
+<li>无连接：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。</li>
+<li>无状态：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传输的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+<li>支持B/S及C/S</li>
+</ol>
+<p><strong>HTTP之URL</strong><br />
+HTTP使用统一资源标识符（Uniform Resource Identifiers，URI）来传输数据和建立连接。URL是一种特殊类型的URI，包含了用于查找某个资源的足够的信息。<br />
+URL，全称是Uniform Resource Locator，中文叫统一资源定位符，是互联网上用来标识某一处资源的地址。<br />
+<strong>URI和URL的区别</strong><br />
+<strong>URI，是uniform resource identifier，统一资源标识符，用来唯一的标识一个资源。</strong><br />
+Web上可用的每种资源如HTML文档、图像、视频片段、程序等都是一个来URI来定位的URI一般有三个部分组成：</p>
+<ol>
+<li>访问资源的命名机制</li>
+<li>存放资源的主机名</li>
+<li>资源自身的名称，有路径标识，着重强调于资源</li>
+</ol>
+<p><strong>URL是uniform resource locator，统一资源定位器，它是一种具体的URI，即URL可以用来标识一个资源，而且还指明了如何locate这个资源。</strong><br />
+URL是Internet上用来描述资源信息的字符串，主要用在各种WWW客户程序客户程序和服务器程序上。<br />
+采用URL可以用一种统一的格式来描述各种信息资源，包括文件、服务器的地址和目录等。URL一般由三部分组成：</p>
+<ul>
+<li>协议（或称为服务方式）</li>
+<li>存有该资源的主机IP地址（有时也包括端口号）</li>
+<li>主机资源的具体地址。如目录和文件名等</li>
+</ul>
+<p><strong>URN，uniform resource name，统一资源命名，是通过名字来标识资源</strong><br />
+URI是一种抽象的，高层次概念定义统一资源标识，而URL和URN则是具体的资源标识的方式。URL和URN都是一种URI。笼统地说，每个URL都是URI，但不一定每个URI都是URL。这是因为URI还包括一个子类，即统一资源名称（URN），它命名资源但不指定如何定位资源。<br />
+在Java的URI中，一个URI实例可以代表绝对的，也可以相对的，只要它符合URI的语法规则。而URL类则不仅符合语义，还包括了定位该资源的信息，因此它不能是相对的。<br />
+在Java类库中，URI类不包括任何访问资源的方法，它唯一的作用就是解析。相反的是，URL类可以打开一个到达资源的流。</p>
+<p><strong>HTTP之请求信息Request</strong><br />
+客户端发送一个HTTP请求到服务器的请求信息包括以下格式：<br />
+<strong>请求行（request line）、请求头部（header）、空行和请求数据四个部分组成。</strong><br />
+<strong>HTTP之响应消息Response</strong><br />
+一般情况下，服务器接收并处理客户端发过来的请求后返回一个HTTP的响应消息。<br />
+<strong>HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">200 OK                        &#x2F;&#x2F;客户端请求成功</span><br><span class="line">400 Bad Request               &#x2F;&#x2F;客户端请求有语法错误，不能被服务器所理解</span><br><span class="line">401 Unauthorized              &#x2F;&#x2F;请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用 </span><br><span class="line">403 Forbidden                 &#x2F;&#x2F;服务器收到请求，但是拒绝提供服务</span><br><span class="line">404 Not Found                 &#x2F;&#x2F;请求资源不存在，eg：输入了错误的URL</span><br><span class="line">500 Internal Server Error     &#x2F;&#x2F;服务器发生不可预期的错误</span><br><span class="line">503 Server Unavailable        &#x2F;&#x2F;服务器当前不能处理客户端的请求，一段时间后可能恢复正常</span><br></pre></td></tr></table></figure>
+<p><strong>HTTP工作原理</strong><br />
+HTTP协议定义Web客户端如何从Web服务器请求Web页面，以及服务器如何把Web页面传送给客户端。HTTP协议采用了请求/响应模型。客户端向服务器发送一个请求报文，请求报文包含请求的方法、URL、协议版本、请求头部和请求数据。服务器以一个状态行作为响应，响应的内容包括协议的版本、成功或者错误代码、服务器信息、响应头部和响应数据。<br />
+以下是HTTP请求/响应的步骤：</p>
+<ol>
+<li>客户端连接到Web服务器<br />
+一个HTTP客户端，通常是浏览器，与Web服务器的HTTP端口（默认是80）建立一个TCP套接字连接。</li>
+<li>发送HTTP请求<br />
+通过TCP套接字，客户端向Web服务器发送一个文本的请求报文，一个请求报文由请求行、请求头部、空行和请求数据4个部分组成。</li>
+<li>服务器接受请求并返回HTTP响应<br />
+Web服务器解析请求，定位请求资源。服务器将资源复本写到TCP套接字，由客户端读取。一个响应由状态行、响应头部、空行和响应数据4个部分组成。</li>
+<li>释放连接TCP连接<br />
+若connection模型为close，则服务器主动关闭TCP连接，客户端被动关闭连接，释放TCP连接；若connection模型为keep alive，则该连接会保持一段时间，则该时间内可以继续接受请求。</li>
+<li>客户端浏览器解析HTML内容<br />
+客户端浏览器首先解析状态行，查看表明请求是否成功的状态码。然后解析每一个响应头，响应头告知以下为若干字节的HTML文档和文档的字符集。客户端浏览器读取响应数据HTML，根据HTML的语法对其进行格式化，并在浏览器窗口中显示。<br />
+例如：在浏览器地址栏键入URL，按下回车之后会经历以下流程：<br />
+1、浏览器向DNS服务器请求解析该URL中的域名所对应的IP地址；<br />
+2、解析出IP地址后，根据该IP地址和默认端口80，和服务器建立TCP连接；<br />
+3、浏览器发出读取文件（URL中域名后面部分对应的文件）的HTTP请求，该请求报文作为TCP三次握手的第三个报文的数据发送给服务器；<br />
+4、服务器对浏览器请求作出响应，并将对应的HTML文本发送给浏览器；<br />
+5、释放TCP连接<br />
+6、浏览器将该HTML文本显示<br />
+<strong>GET和POST请求的区别</strong><br />
+1、GET提交的数据会放在URL之后，以？分割URL和传输数据，参数之间以&amp;相连；POST方法是把提交的数据放在HTTP包的body里面；<br />
+2、GET提交的数据大小有限制（HTTP协议没有对传输的数据大小进行限制，HTTP协议规范也没有对URL长度进行限制，只是由于浏览器对URL的长度有限制），而POST方法提交的数据没有限制；<br />
+3、GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值；<br />
+4、GET方式提交数据，会带来安全问题<br />
+5、GET方式通过一次HTTP请求即可获得数据；POST方式通过两次HTTP请求获得数据，第一次返回状态码100表示浏览器继续请求。</li>
+</ol>
+<h3 id="七-osi协议-tcpip协议以及每层对应的协议"><a class="markdownIt-Anchor" href="#七-osi协议-tcpip协议以及每层对应的协议"></a> 七. OSI协议、TCP/IP协议以及每层对应的协议</h3>
+<p>OSI分层 （7层）：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层；<br />
+TCP/IP分层（4层）：网络接口层、 网际层、运输层、 应用层；<br />
+5层协议 （5层）：物理层、数据链路层、网络层、运输层、 应用层；</p>
+<h3 id="八-session机制-cookie机制"><a class="markdownIt-Anchor" href="#八-session机制-cookie机制"></a> 八. session机制、cookie机制</h3>
+<p>由于http协议是无状态的协议，所以服务端需要记录用户的状态时，就需要用某种机制来识具体的用户，这个机制就是session。这个session是保存在服务端的，有一个唯一标识。在服务端保存session的方法有很多，内存、数据库、文件都可以。<br />
+每次http请求的时候，客户端都会发送相应的cookie信息到服务端，实际上大多数的应用都是用cookie来实现session跟踪的，第一次创建session的时候，服务端会在http协议中告诉客户端，需要在cookie里面记录一个session id，以后每次请求把这个会话id发送到服务器。<br />
+如果客户端浏览器禁用了cookie，在这种情况下，会使用一种叫做URL重写的技术来进行会话跟踪，即每次http请求，URL后面都会附上一个诸如sid=xxx这样的参数，服务端据此来标识用户。<br />
+<em>总结：Session是在服务端保存的一个数据结构，用来跟踪用户的状态，这个数据可以保存在集群、数据库、文件中；Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是实现Session的一种方式。</em></p>
+<h3 id="九-打开网页到页面显示之间的过程"><a class="markdownIt-Anchor" href="#九-打开网页到页面显示之间的过程"></a> 九. 打开网页到页面显示之间的过程</h3>
+<h4 id="dns解析"><a class="markdownIt-Anchor" href="#dns解析"></a> DNS解析</h4>
+<h5 id="解析过程"><a class="markdownIt-Anchor" href="#解析过程"></a> 解析过程</h5>
+<p>DNS解析是一个递归查询的过程</p>
+<p><img src="https://sfault-image.b0.upaiyun.com/161/828/1618288278-57f00bf9444dd_articlex" alt="" /></p>
+<p>上图是查找www.google.com的IP地址流程。首先在本地域名服务器中查询IP地址，如果没有找到的情况下，本地域名服务器会向根域名服务器发送一个请求，如果根域名服务器也不存在该域名时，本地域名会向com顶级域名服务器发送一个请求，依次类推下去。直到最后本地域名服务器得到google的IP地址并把它缓存到本地，供下次查询使用。从上述过程中，可以看出网址的解析是一个从左向右的过程：com-&gt;google.com-&gt;<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a>。事实上，<a href="http://xn--www-cs6et69dkeh2jun9at96b.google.com" target="_blank" rel="noopener">真正的网址是www.google.com</a>.，最后一个.对应的就是根域名服务器，默认情况下，通常会省略，浏览器在请求DNS的时候都会自动加上，所有网址真正的解析过程是：<br />
+.-&gt;.com-&gt;google.com.-&gt;<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a>.。</p>
+<h5 id="dns优化"><a class="markdownIt-Anchor" href="#dns优化"></a> DNS优化</h5>
+<p><strong>DNS缓存</strong><br />
+DNS存在着多级缓存，从离浏览器的距离排序的话，有以下几种：浏览器缓存、系统缓存、根域名服务器缓存、顶级域名服务器缓存、主域名服务器缓存<br />
+<strong>DNS负载均衡</strong><br />
+DNS可以返回一个合适的机器的IP给用户，例如可以根据每台机器的负载量，该机器离用户地理位置的距离等等，这种过程就是DNS负载均衡，又叫做DNS重定向。CDN（Content Delivery Network）就是利用DNS的重定向技术，DNS服务器会返回一个跟用户最接近的点的IP返回给用户，CDN节点的服务器负责响应用户的请求，提供所需的内容。</p>
+<h4 id="tcp连接"><a class="markdownIt-Anchor" href="#tcp连接"></a> TCP连接</h4>
+<p>HTTP协议是使用TCP作为其传输层协议的，当TCP出现瓶颈时，HTTP也会受到影响。</p>
+<h5 id="https协议"><a class="markdownIt-Anchor" href="#https协议"></a> HTTPS协议</h5>
+<p>HTTP报文是包裹在TCP报文中发送的，服务器端收到TCP报文时会解包提取出HTTP报文。但是这个过程中存在一定的风险，HTTP报文是明文，如果中间被截取的话会存在一定信息泄露的风险。HTTPS协议的本质就是HTTP+SSL(or TLS)。在HTTP报文进入TCP报文之前，先使用SSL对HTTP报文进行加密。从网络的层次结构中看它位于HTTP协议与TCP协议之间。</p>
+<p><img src="https://sfault-image.b0.upaiyun.com/359/891/3598916885-5608f6c220945_articlex" alt="" /></p>
+<p>https在传输数据之前需要客户端与服务端进行一个握手（TCL/SSL握手），在握手过程中将确立双方加密传输数据的密码信息。TCL/SSL使用了非对称加密，对称加密和hash等。具体过程见的阮一峰先生的博客<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">图解SSL/TLS协议</a></p>
+<h5 id="http请求"><a class="markdownIt-Anchor" href="#http请求"></a> HTTP请求</h5>
+<p>发送HTTP请求的过程就是构建HTTP请求报文并通过TCP协议发送到服务器指定端口（80和443）。HTTP请求报文是由三部分组成：请求行、请求报头和请求正文。</p>
+<h5 id="服务器处理请求并返回http报文"><a class="markdownIt-Anchor" href="#服务器处理请求并返回http报文"></a> 服务器处理请求并返回HTTP报文</h5>
+<p>后端从在固定的端口接收到TCP报文开始，这一部分对应于编程语言中的socket。它会对TCP连接进行处理，对HTTP协议进行解析，并按照报文格式进一步封装成HTTP Request对象，供上层使用。这一部分工作一般由Web服务器去进行处理，有Tomcat、Jetty和Netty等。<br />
+HTTP响应报文也是由三部分组成：状态码、响应报头和响应报文。</p>
+<h4 id="浏览器解析渲染页面"><a class="markdownIt-Anchor" href="#浏览器解析渲染页面"></a> 浏览器解析渲染页面</h4>
+<p>浏览器是一个边解析边渲染的过程。首先浏览器解析HTML文件构建DOM树，然后解析CSS文件构建渲染树，等到渲染树构建完成后，浏览器开始布局渲染树并将其绘制到屏幕上。这个过程比较复杂，涉及到两个概念: reflow(回流)和repain(重绘)。DOM节点中的各个元素都是以盒模型的形式存在，这些都需要浏览器去计算其位置和大小等，这个过程称为relow；当盒模型的位置,大小以及其他属性，如颜色，字体，等确定下来之后，浏览器便开始绘制内容，这个过程称为repain。页面在首次加载时必然会经历reflow和repain。<br />
+JS的解析是由浏览器中的JS解析引擎完成的。JS是单线程运行，也就是说，在同一个时间内只能做一件事，所有的任务都需要排队，前一个任务结束，后一个任务才能开始。但是又存在某些任务比较耗时，如IO读写等，所以需要一种机制可以先执行排在后面的任务，这就是：同步任务(synchronous)和异步任务(asynchronous)。JS的执行机制就可以看做是一个主线程加上一个任务队列(task queue)。同步任务就是放在主线程上执行的任务，异步任务是放在任务队列中的任务。所有的同步任务在主线程上执行，形成一个执行栈;异步任务有了运行结果就会在任务队列中放置一个事件；脚本运行时先依次运行执行栈，然后会从任务队列里提取事件，运行任务队列中的任务，这个过程是不断重复的，所以又叫做事件循环(Event loop)。<br />
+浏览器在解析过程中，如果遇到请求外部资源时，如图像,iconfont,JS等。浏览器将重复1-6过程下载该资源。请求过程是异步的，并不会影响HTML文档进行加载，但是当文档加载过程中遇到JS文件，HTML文档会挂起渲染过程，不仅要等到文档中JS文件加载完毕还要等待解析执行完毕，才会继续HTML的渲染过程。原因是因为JS有可能修改DOM结构，这就意味着JS执行完成前，后续所有资源的下载是没有必要的，这就是JS阻塞后续资源下载的根本原因。CSS文件的加载不影响JS文件的加载，但是却影响JS文件的执行。JS代码执行前浏览器必须保证CSS文件已经下载并加载完毕。</p>
+<h4 id="web优化"><a class="markdownIt-Anchor" href="#web优化"></a> Web优化</h4>
+<p>如何尽快的加载资源？答案就是能不从网络中加载的资源就不从网络中加载，当我们合理使用缓存，将资源放在浏览器端，这是最快的方式。如果资源必须从网络中加载，则要考虑缩短连接时间，即DNS优化部分;减少响应内容大小，即对内容进行压缩。另一方面，如果加载的资源数比较少的话，也可以快速的响应用户。当资源到达浏览器之后，浏览器开始进行解析渲染，浏览器中最耗时的部分就是reflow，所以围绕这一部分就是考虑如何减少reflow的次数。</p>
+<p><strong>补充：</strong><br />
+1、一个完整的HTTP请求，通常有以下7个步骤</p>
+<ul>
+<li>建立TCP连接</li>
+<li>web浏览器向web服务器发送请求命令</li>
+<li>浏览器发送请求头信息</li>
+<li>服务器应答</li>
+<li>服务器发送应答头信息</li>
+<li>服务器向浏览器发送数据</li>
+<li>服务器关闭TCP连接<br />
+2、一个HTTP请求由四部分组成</li>
+<li>HTTP请求方法或动作，如：GET与POST</li>
+<li>正在请求的URL</li>
+<li>请求头，包含一些客户端环境信息、身份验证信息</li>
+<li>请求体，即请求正文，可包含提交的查询字符串信息、表单信息等。<br />
+3、一个HTTP响应一般由三个部分组成</li>
+<li>一个数字和文字组成的状态码，用来显示请求成功还是失败</li>
+<li>响应头，包含许多有用的信息，如：服务器类型、日期时间、内容类型和长度</li>
+<li>响应体，即响应正文。<br />
+4、readyState属性（返回请求的当前状态）</li>
+<li>0，请求未初始换，open还没有调用</li>
+<li>1，服务器连接已建立，open已经调用</li>
+<li>2，请求已接收，即接收到头部信息</li>
+<li>3，请求处理中，即接收到响应体了</li>
+<li>4，请求已完成，且响应已就绪，即响应完成了。</li>
+</ul>
+<h3 id="十-http和https区别https在请求时额外的过程https是如何保证数据安全的"><a class="markdownIt-Anchor" href="#十-http和https区别https在请求时额外的过程https是如何保证数据安全的"></a> 十. http和https区别，https在请求时额外的过程，https是如何保证数据安全的</h3>
+<p><strong>区别：</strong><br />
+HTTP协议传输的数据都是未加密的，即明文，为了保证隐私数据能加密传输，使用SSL协议用于对HTTP协议传输的数据进行加密，这就是HTTPS。简单的说，HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</p>
+<ul>
+<li>https协议协议到CA申请证书，需要一定的费用</li>
+<li>http是超文本传输协议，信息是明文传输，https则是具有安全性的SSL加密传输协议</li>
+<li>http和https使用的是完全不用的连接方式，用到的端口不同，前者是80，后者是443</li>
+<li>http的连接简单，是无状态的；https协议是ssl+http协议构成的可进行加密传输、身份认证的网络协议，比http协议安全</li>
+</ul>
+<p><strong>额外的过程：</strong><br />
+https在传输数据之前需要客户端与服务端进行一个握手（TCL/SSL握手），在握手过程中将确立双方加密传输数据的密码信息。TCL/SSL使用了非对称加密，对称加密和hash等。具体过程见的阮一峰先生的博客<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">图解SSL/TLS协议</a></p>
+<h3 id="十一-ip地址子网划分"><a class="markdownIt-Anchor" href="#十一-ip地址子网划分"></a> 十一. IP地址子网划分</h3>
+<p><strong>IP地址的划分：</strong></p>
+<ul>
+<li>A类地址：以0开头，网络号是前一个字节</li>
+<li>B类地址：以10开头，网络号是前两个字节</li>
+<li>C类地址：以110开头，网络号是前三个字节</li>
+</ul>
+<p><strong>IP地址由网络号和主机号组成，ip与子网掩码相与得到网络号</strong><br />
+<strong>子网划分</strong><br />
+传统的两级ip地址空间利用率很低，1个A类网络可连接的主机数可超过1000万台，但实际连接数并不多，所以需要对网络进行子网划分，通过子网掩码来区分网络。<br />
+<strong>三级ip地址：&lt;网络号&gt;&lt;子网号&gt;&lt;主机号&gt;</strong></p>
+<h3 id="十二-tcp如何保证数据的可靠传输的这个问题可以引申出很多子问题拥塞控制慢开始-拥塞避免-快重传-滑动窗口协议-停止等待协议-超时重传机制"><a class="markdownIt-Anchor" href="#十二-tcp如何保证数据的可靠传输的这个问题可以引申出很多子问题拥塞控制慢开始-拥塞避免-快重传-滑动窗口协议-停止等待协议-超时重传机制"></a> 十二. TCP如何保证数据的可靠传输的（这个问题可以引申出很多子问题，拥塞控制慢开始、拥塞避免、快重传、滑动窗口协议、停止等待协议、超时重传机制）</h3>
+<p><em>总结一：</em></p>
+<ol>
+<li>确认和重传：接收方收到报文就会确认，发送方发送一段时间后没有收到确认就会重传</li>
+<li>数据校验：TCP报文头有校验和，用于校验报文是否损坏</li>
+<li>数据合理分片和排序：<br />
+TCP会按最大传输单元（MTU）合理分片，接收方会缓存为按排序到达的数据，重新排序后交给应用层<br />
+UDP：IP数据包大于1500字节，大于MTU。这个时候发送方的IP层就需要分片，吧数据包分成若干片，每一片都小于MTU。而接收方IP层则需要数据包的重组。由于UDP的特性，当某一片数据丢失时，接收方无法重组数据包，导致丢弃整个UDP数据包。</li>
+<li>流量控制：当接收方来不及处理发送方的数据时，能通过滑动窗口，提示发送方降低发送的速率，防止包丢失。</li>
+<li>拥塞控制：当网络拥塞时，通过拥塞窗口，减少数据的发送，防止包丢失。</li>
+</ol>
+<p><em>总结二：</em></p>
+<ol>
+<li>可靠传输：对于收到的请求，给出确认响应</li>
+<li>超时重传</li>
+<li>流量控制：让发送方的发送速率不要太快，要让接收方来得及接受。利用滑动窗口实现流量控制</li>
+<li>拥塞控制：防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不至过载</li>
+<li>慢开始：TCP开始发送报文段时先设置拥塞窗口为1</li>
+<li>拥塞避免：使拥塞窗口按线性规律增长</li>
+<li>快重传：发送方只要一连收到三个重复确认就应当立即重传对方尚未收到的报文段，而不必继续等待为其设置的重传计时器到期</li>
+<li>快恢复(与快重传配合使用)：当发送方连续收到三个重复确认时，就执行“乘法减小”算法，把慢开始门限减半。这是为了预防网络发生拥塞。请注意，接下来不执行慢开始算法。<br />
+由于发送方现在认为网络很可能没有发生拥塞(如果网络发生了严重的拥塞，就不会一连有好几个报文段连续达到接收方，就不会导致接收方连续发送重复确认)，因此与慢开始不同之处是现在不执行慢开始算法(即拥塞窗口现在不设置为1)，而是把它设置为慢开始门限减半后的数值，然后开始执行拥塞避免算法(“加法增大”)，使拥塞窗口缓慢地线性增长。</li>
+</ol>
+<h3 id="十三-长连接与短连接"><a class="markdownIt-Anchor" href="#十三-长连接与短连接"></a> 十三. 长连接与短连接</h3>
+<h4 id="1-http协议和tcp协议"><a class="markdownIt-Anchor" href="#1-http协议和tcp协议"></a> 1. HTTP协议和TCP协议</h4>
+<p>HTTP的长连接和短连接本质上是TCP长连接和短连接。HTTP属于应用层协议，在传输层使用TCP协议，在网络层使用IP协议。IP协议主要解决网络路由和寻址问题，TCP协议主要解决如何在IP层之上可靠的传输数据包，使在网络上的另一端收到发端发出的所有包，并且顺序与发出顺序一致。TCP有可靠，面向连接的特点。</p>
+<h4 id="2-http协议的长连接和短连接"><a class="markdownIt-Anchor" href="#2-http协议的长连接和短连接"></a> 2. HTTP协议的长连接和短连接</h4>
+<p>在HTTP/1.0中，默认使用的是短连接。也就是说，浏览器和服务器每进行一次HTTP操作，就建立一次连接，但任务结束就中断连接。如果客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源，如JavaScript文件、图像文件、CSS文件等；当浏览器没遇到这样一个Web资源，就会建立一个HTTP会话。<br />
+但从HTTP/1.1起，默认使用长连接，用以保持连接特性。使用长连接的HTTP协议，会在响应头加入如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection:keep-alive</span><br></pre></td></tr></table></figure>
+<p>在使用长连接的情况下，当一个网页打开完成之后，客户端和服务端之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问这个服务器的网页，会继续使用这一条已经建立的连接。Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个事件。实现长连接要客户端和服务端都支持长连接。<br />
+HTTP协议的长连接和短连接，实质上是TCP协议的长连接和短连接。</p>
+<h4 id="3-tcp长连接和短连接"><a class="markdownIt-Anchor" href="#3-tcp长连接和短连接"></a> 3. TCP长连接和短连接</h4>
+<p>我们模拟一下TCP短连接的情况，client向server发起连接请求，server接到请求，然后双方建立链接。client向server发送消息，server回应client，然后一次读写就完成了，这时候双方任何一个都可以发起close操作，不过一般都是client先发起close操作。为什么呢，一般的server不会回复完client后立即关闭连接的，当然不排除有特殊的情况。从上面的描述看，短连接一般只会在 client/server间传递一次读写操作。<br />
+<strong>短连接的优点：管理起来比较方便，存在的连接都是有用的连接，不需要额外的控制手段。</strong><br />
+我们再模拟一下长连接的情况，client向server发起连接，server接受client连接，双方建立连接。client与server完成一次读写之后，它们之间的连接并不会主动关闭，后续的读写操作会继续使用这个链接。<br />
+<strong>首先说一下TCP/IP详解上讲到的TCP保活功能，保活功能主要为服务器应用提供，服务器应用希望知道客户主机是否崩溃，从而可以代表客户使用资源。如果客户已经消失，使得服务器上保留一个半开放的连接，而服务器又在等待来自客户端的数据，则服务器将应远等待客户端的数据，保活功能就是试图在服务器端检测到这种半开放的连接。</strong></p>
+<h4 id="4-长连接和短连接的生命周期"><a class="markdownIt-Anchor" href="#4-长连接和短连接的生命周期"></a> 4. 长连接和短连接的生命周期</h4>
+<p>短连接在建立连接后，完成一次读写就会自动关闭了。<br />
+正常情况下，一条TCP长连接建立后，只要双方不提出关闭请求并且不出现异常情况，这条连接是一直存在的，操作系统不会自动去关闭它，甚至经过物理网络拓扑的改变之后仍然可以使用。所以一条连接保持几天、几个月、几年或者更长时间都有可能，只要不出现异常情况或由用户（应用层）主动关闭。<br />
+在编程中，往往需要建立一条TCP连接，并且长时间处于连接状态。所谓的TCP长连接并没有确切的时间限制，而是说这条连接需要的时间比较长。</p>
+<h4 id="5-怎样维护长连接或者检查中断"><a class="markdownIt-Anchor" href="#5-怎样维护长连接或者检查中断"></a> 5.  怎样维护长连接或者检查中断</h4>
+<ul>
+<li>在应用层使用heartbeat来主动监测<br />
+对于实时性要求较高的网络通信程序，往往需要更加及时的获取已经中断的连接，从而进行及时的处理。但如果对方的连接异常中断，往往是不能及时的得到对方连接已经中断的信息，操作系统检测连接是否中断的时间间隔默认是比较长的，即便它能够检测到，但却不符合我们的实时性需求，所以需要我们进行手工去不断探测。</li>
+<li>改变socket的keepalive选项，以使socket检查连接是否中断的时间间隔更小，以满足我们的及时性需求。有关的几个选项使用和解析如下：<br />
+a. 我们在检测对端以一种非优雅的方式断开连接的时候，可以设置SO_KEEPALIVE属性使得我们在2小时以后发现对方的TCP连接是否依然存在。用法如下:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keepAlive &#x3D; 1；</span><br><span class="line">setsockopt(listenfd, SOL_SOCKET, SO_KEEPALIVE, (void*)&amp;keepAlive, sizeof(keepAlive));</span><br></pre></td></tr></table></figure>
+<p>b. 如果我们不想使用这么长的等待时间，可以修改内核关于网络方面的配置参数，也可设置SOCKET的TCP层（SOL_TCP）选项TCP_KEEPIDLE、TCP_KEEPINTVL和TCP_KEEPCNT。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TCP_KEEPIDLE：开始首次KeepAlive探测前的TCP空闭时间</span><br><span class="line">TCP_KEEPINTVL：两次KeepAlive探测间的时间间隔</span><br><span class="line">TCP_KEEPCNT：断开前的KeepAlive探测次数</span><br></pre></td></tr></table></figure>
+<p>如果心搏函数要维护客户端的存活，即服务器必须每隔一段时间必须向客户段发送一定的数据，那么使用SO_KEEPALIVE是有很大的不足的。因为SO_KEEPALIVE选项指&quot;此套接口的任一方向都没有数据交换&quot;。在Linux<br />
+2.6系列上，上面话的理解是只要打开SO_KEEPALIVE选项的套接口端检测到数据发送或者数据接受就认为是数据交换。因此在这种情况下使用 SO_KEEPALIVE选项<br />
+检测对方是否非正常连接是完全没有作用的，在每隔一段时间发包的情况， keep-alive的包是不可能被发送的。上层程序在非正常断开的情况下是可以正常发送包到缓冲区的。非正常端开的情况是指服务器没有收到&quot;FIN&quot; 或者 &quot;RST&quot;包。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Toyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://toyan.top/network-summary/">https://toyan.top/network-summary/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/alipay.jpeg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/wechat.jpeg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share pull-right"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/JVM-summary/"><i class="fa fa-chevron-left">  </i><span>JVM虚拟机总结</span></a></div><div class="next-post pull-right"><a href="/java-summary/"><span>Java总结</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '64bf96f3f30de518911b',
+  clientSecret: '2b721d1728859b321e4f4533bd870be019c30c37',
+  repo: 'toyan-blog.github.io',
+  owner: 'toyan-blog',
+  admin: 'toyan-blog',
+  id: md5(decodeURI(location.pathname)),
+  language: 'en'
+})
+gitalk.render('gitalk-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2020 By Toyan</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" data-click="false"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>Powered by</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"superSample":2,"width":210,"height":420,"position":"left","hOffset":0,"vOffset":-20},"log":false,"tagMode":false});</script></body></html>
