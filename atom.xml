@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://toyan.top/"/>
-  <updated>2020-02-04T11:07:11.655Z</updated>
+  <updated>2020-02-06T12:13:08.849Z</updated>
   <id>https://toyan.top/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>刷题汇总</title>
+    <link href="https://toyan.top/algorithm/"/>
+    <id>https://toyan.top/algorithm/</id>
+    <published>2020-02-05T16:00:00.000Z</published>
+    <updated>2020-02-06T12:13:08.849Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://toyan.top/algorithm-sort/">排序算法</a></p><p><a href="https://www.cnblogs.com/tongan-java/p/7599922.html" target="_blank" rel="noopener">剑指offer</a></p><p><a href="https://www.cnblogs.com/tongan-java/p/7284094.html" target="_blank" rel="noopener">leetcode</a></p><p><a href="https://www.cnblogs.com/tongan-java/p/8579047.html" target="_blank" rel="noopener">动态规划</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://toyan.top/algorithm-sort/&quot;&gt;排序算法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/tongan-java/p/7599922.html&quot; target=&quot;_blank&quot; 
+      
+    
+    </summary>
+    
+    
+      <category term="algorithm" scheme="https://toyan.top/categories/algorithm/"/>
+    
+      <category term="leetcode" scheme="https://toyan.top/categories/algorithm/leetcode/"/>
+    
+    
+      <category term="算法" scheme="https://toyan.top/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -162,6 +191,33 @@
     
     
       <category term="Java" scheme="https://toyan.top/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于互联网行业的一些看法（摘抄）</title>
+    <link href="https://toyan.top/view-for-internet/"/>
+    <id>https://toyan.top/view-for-internet/</id>
+    <published>2018-08-31T16:00:00.000Z</published>
+    <updated>2020-02-06T12:04:30.551Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="这是最坏的时代也是最好的时代"><a class="markdownIt-Anchor" href="#这是最坏的时代也是最好的时代"></a> 这是最坏的时代，也是最好的时代</h2><h3 id="字节跳动"><a class="markdownIt-Anchor" href="#字节跳动"></a> 字节跳动</h3><p>今日头条打造“千人千面”的客户端，撕开了四大门户的壁垒；抖音利用年轻人的内心，结合其强大的内容分发机制，占据了原本属于微信的用户使用时间，使得腾讯不得不做出调整，也让新浪微博产生了一丝恐惧，而且自有的推荐算法也让其广告业务迅速盈利，使得百度在其原有的凤巢基础上成立新部门以应对头条的威胁。</p><h3 id="滴滴"><a class="markdownIt-Anchor" href="#滴滴"></a> 滴滴</h3><p>背靠腾讯以及阿里这两个大金主，将Uber赶出中国市场，打造了中国最大的出行平台。</p><h3 id="美团"><a class="markdownIt-Anchor" href="#美团"></a> 美团</h3><p>作为全球绝无仅有的独特理念，打造了全球最大的餐饮外卖服务提供商，并大手笔收购摩拜，解决了当下人们的“最后一公里”问题。</p><h3 id="拼多多"><a class="markdownIt-Anchor" href="#拼多多"></a> 拼多多</h3><p>原本以为京东和淘宝已经形成了无人撼动的地位，但是拼多多利用“社交+电商”的模式，利用腾讯提供的优势，作成了多年来腾讯一直想实现的“电商梦”，困扰京东淘宝多年的用户下沉问题也随之解决。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;这是最坏的时代也是最好的时代&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#这是最坏的时代也是最好的时代&quot;&gt;&lt;/a&gt; 这是最坏的时代，也是最好的时代&lt;/h2&gt;
+&lt;h3 id=&quot;字节跳动&quot;&gt;&lt;a class=&quot;markdownIt-Anc
+      
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="https://toyan.top/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://toyan.top/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
