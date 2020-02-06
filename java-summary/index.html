@@ -97,7 +97,7 @@ Hashtable和HashMap都能通过values()方法返回一个Collection，然后遍�
 hashtable是线程安全的，其实是在对应的方法添加了synchronized关键字进行修饰，由于在执行此方法的时候需要获得对象锁，则执行起来比较慢。所以可以使用concurrentHashMap</p>
 <h2 id="hashmap与concurrenthashmap"><a class="markdownIt-Anchor" href="#hashmap与concurrenthashmap"></a> HashMap与concurrentHashMap</h2>
 <h3 id="区别"><a class="markdownIt-Anchor" href="#区别"></a> 区别</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-3cd6f552df38c5da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="HashMap与concurrentHashMap的区别.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/HashMap%E4%B8%8EconcurrentHashMap%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="HashMap与concurrentHashMap的区别" /></p>
 <h3 id="concurrenthashmap线程安全吗如何保证线程安全"><a class="markdownIt-Anchor" href="#concurrenthashmap线程安全吗如何保证线程安全"></a> concurrentHashMap线程安全吗，如何保证线程安全？</h3>
 <ul>
 <li>
@@ -107,14 +107,14 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 <p>get的高效之处：get过程不需要加锁，除非读到的值是空的才需要加锁重读</p>
 </li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-07abfdfff5f9bdd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="concurrentHashMap的get方法高效之处.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84get%E6%96%B9%E6%B3%95%E9%AB%98%E6%95%88%E4%B9%8B%E5%A4%84.png" alt="concurrentHashMap的get方法高效之处" /></p>
 <ul>
 <li>put方法首先定位到segment，然后在segment里进行插入操作</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-1e18e15487173b7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="concurrentHashMap的put操作步骤.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84put%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4.png" alt="concurrentHashMap的put操作步骤" /></p>
 <h2 id="string-stringbuffer-stringbuilder"><a class="markdownIt-Anchor" href="#string-stringbuffer-stringbuilder"></a> String、StringBuffer、StringBuilder</h2>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-199d8cc0f1e566db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="String、StringBuffer、StringBuilder.png" /></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-165d0d85963e2435.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="String的不变性.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/String%E3%80%81StringBuffer%E3%80%81StringBuilder.png" alt="String、StringBuffer、StringBuilder" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/String%E7%9A%84%E4%B8%8D%E5%8F%98%E6%80%A7.png" alt="String的不变性" /></p>
 <h2 id="string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"><a class="markdownIt-Anchor" href="#string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"></a> String重写了Object的hashCode和toString，重写equals()不重写hashCode()有什么问题？</h2>
 <ul>
 <li>当equals方法被重写，通常需要重写hashCode方法，以保证两个相等的对象必须有相同的hashCode
@@ -135,7 +135,7 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 <li>对JavaBeans进行序列化</li>
 </ul>
 <h3 id="序列化与反序列化"><a class="markdownIt-Anchor" href="#序列化与反序列化"></a> 序列化与反序列化</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-9e20b70fbf8a2ffb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="序列化与反序列化.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.png" alt="序列化与反序列化" /></p>
 <p><em>注意事项：</em></p>
 <ul>
 <li>被static修饰的属性不会被序列化</li>
@@ -146,20 +146,20 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 <li>最好显示的声明serializableID，因为在不同的JVM时，默认生成的serializableID不同，可能导致反序列化失败</li>
 </ul>
 <h2 id="多线程"><a class="markdownIt-Anchor" href="#多线程"></a> 多线程</h2>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-a3706a708bb787b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="多线程.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%A4%9A%E7%BA%BF%E7%A8%8B.png" alt="多线程" /></p>
 <p><em>线程安全</em></p>
 <ul>
 <li>定义：某个类的行为与其规范一致；不管多个线程是怎样的执行顺序和优先级，或是wait、sleep、join等，如果一个类在多线程访问下都正常，并且不需要额外的同步处理和协调，那么这就是线程安全。</li>
 <li>如何保证线程安全：对变量使用volitate；对程序段进行加锁（synchronized、lock）</li>
 <li>注意：非线程安全的集合可以在多线程中使用，但是不能用作多个线程共享的属性，只能作为某个线程独享的属性</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-0808045764dfe335.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="多线程共用一个变量.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%85%B1%E7%94%A8%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F.png" alt="多线程共用一个变量" /></p>
 <h2 id="线程池"><a class="markdownIt-Anchor" href="#线程池"></a> 线程池</h2>
 <p>定义：实现先创建若干个可执行的线程放入一个容器（池）中，当需要的时候，不用自行创建只需要从容器中获取，使用完毕后不需要销毁而是放入到容器中，从而减少创建和销毁线程对象的开销。</p>
 <p><strong>设计线程池</strong><br />
-<img src="https://upload-images.jianshu.io/upload_images/4470227-4b7af091d802db0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建线程池.png" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0.png" alt="创建线程池" /></p>
 <h2 id="volatile关键字与synchronized的区别"><a class="markdownIt-Anchor" href="#volatile关键字与synchronized的区别"></a> volatile关键字与synchronized的区别</h2>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-b8f44396064cf9dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="区别.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%8C%BA%E5%88%AB.png" alt="区别" /></p>
 <h2 id="sleep与wait"><a class="markdownIt-Anchor" href="#sleep与wait"></a> sleep()与wait()</h2>
 <ul>
 <li>sleep是Thread类的方法</li>
@@ -172,7 +172,7 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 </li>
 </ul>
 <h2 id="synchronized与lock"><a class="markdownIt-Anchor" href="#synchronized与lock"></a> synchronized与lock</h2>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-dc6c2c91b5a20469.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="synchronized与lock的区别.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/synchronized%E4%B8%8Elock%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="synchronized与lock的区别" /></p>
 <h3 id="synchronized与static-synchronized的区别"><a class="markdownIt-Anchor" href="#synchronized与static-synchronized的区别"></a> synchronized与static synchronized的区别</h3>
 <ul>
 <li>synchronized是对类的当前实例进行加锁，防止其他线程同时访问该类的该实例的所有synchronized锁，同一个类的不同实例之间没有这种约束</li>
@@ -224,7 +224,7 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 从整体来看，这两个步骤实质上是线程A在向线程B发送消息，而且这个通信过程必须要经过主内存。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序员提供</strong>内存可见性保证</strong>。</p>
 <h3 id="jvm对java内存模型的实现"><a class="markdownIt-Anchor" href="#jvm对java内存模型的实现"></a> JVM对Java内存模型的实现</h3>
 <p>在JVM内部，Java内存模型把内存分成了两个部分：线程栈区和堆区。下图展示了Java内存模型在JVM中的逻辑视图：</p>
-<p><img src="http://img.blog.csdn.net/20160921182837697" alt="" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/20160921182837697.jpg" alt="" /></p>
 <p>JVM中运行的每个线程都拥有自己的线程栈，线程栈包括了当前线程执行的方法调用相关信息，我们也把它称作调用栈。随着代码的执行，调用栈会不断的变化。</p>
 <p><strong>线程栈</strong>还包含了当前方法的所有本地变量信息。一个线程只能读取自己的线程栈，也就是说，**线程中的本地变量对其他线程是不可见的。**即使两个线程执行的是同一段代码，它们也会各自在自己的线程栈创建本地变量，因此，<strong>每个线程中的本地变量都有自己的版本。</strong><br />
 所有原始类型（boolean、byte、short、int、long、char、float、double）的本地变量都直接保存在线程栈中，对于它们的值各个线程都相互独立。对于原始类型的本地变量，一个线程可以传递一个副本给另一个线程，当它们之间是无法共享的。</p>
@@ -236,7 +236,7 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 <p><strong>Static类型的变量以及类本身相关信息都会随着类本身存储在堆区。</strong></p>
 <p>堆中的对象可以被多线程共享。如果一个线程获得一个对象的应用，它便可访问这个对象的成员变量。如果两个线程同时调用了同一个对象的同一个方法，那么这两个线程便可同时访问这个对象的成员变量，但是对于本地变量，每个线程都会拷贝一份到自己的线程栈中。</p>
 <p>下图是上面的全部过程：<br />
-<img src="http://img.blog.csdn.net/20160921182948601" alt="" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/20160921182948601.jpg" alt="" /></p>
 <h3 id="共享对象的可见性与竞争现象"><a class="markdownIt-Anchor" href="#共享对象的可见性与竞争现象"></a> 共享对象的可见性与竞争现象</h3>
 <p>volatile关键字可以保证变量会直接从主存读取，而对变量的更新也会直接写到主存。volatile原理是基于CPU内存屏障指令实现的。<br />
 synchronized代码块可以保证同一个时刻只能有一个线程进入代码竞争区，synchronized代码块也能保证代码块中所有变量都将会从主存中读，当线程退出代码块时，对所有变量的更新将会flush到主存，不管这些变量是不是volatile类型的。</p>
@@ -249,13 +249,13 @@ synchronized代码块可以保证同一个时刻只能有一个线程进入代�
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**使用volatile关键字要满足以下条件：**</span><br><span class="line">&#96;&#96;&#96;1. 对变量的写入操作不依赖与变量的当前值，或者可以确保只有单个线程在操作变量</span><br></pre></td></tr></table></figure>
 <p><code>2. 该变量没有包含在具有其他变量的不变式中</code></p>
 <p><strong>总结如下：</strong><br />
-<img src="https://upload-images.jianshu.io/upload_images/4470227-cd84a254ff0a465a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="volatile与synchronized的区别" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/volatile%E4%B8%8Esynchronized%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="volatile与synchronized的区别" /></p>
 <h3 id="java内存模型的基础原理"><a class="markdownIt-Anchor" href="#java内存模型的基础原理"></a> Java内存模型的基础原理</h3>
 <ul>
 <li>指令重排序：<br />
 为了提高程序的执行性能，编译器和处理器都会对指令进行重排序，但是JMM确保在不同的编译器和处理器平台下，通过插入指定类型的内存屏障来禁止编译器重排序和处理器重排序，为上层提供一致的内存可见性保证。</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-f9b9e6bf36c57f64.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="指令序列的重排序" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E6%8C%87%E4%BB%A4%E5%BA%8F%E5%88%97%E7%9A%84%E9%87%8D%E6%8E%92%E5%BA%8F.png" alt="指令序列的重排序" /></p>
 <ul>
 <li>数据依赖性：<br />
 如果两个操作在访问同一个变量，且这两个操作有一个是写操作，此时两个操作之间存在数据依赖性。</li>
@@ -268,12 +268,12 @@ synchronized代码块可以保证同一个时刻只能有一个线程进入代�
 不过怎么重排序，单线程下的执行结果不能改变，编译器、runtime（运行时）和处理器都必须遵守as-if-serial语义</li>
 </ul>
 <h3 id="内存屏障memory-barrier"><a class="markdownIt-Anchor" href="#内存屏障memory-barrier"></a> 内存屏障（Memory Barrier）</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-3ec44c6a754b1d28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存屏障" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C.png" alt="内存屏障" /></p>
 <p><em>volatile内存语义的实现：</em><br />
-<img src="https://upload-images.jianshu.io/upload_images/4470227-1b17395a4d02b463.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="volatile内存语义的实现" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/volatile%E5%86%85%E5%AD%98%E8%AF%AD%E4%B9%89%E7%9A%84%E5%AE%9E%E7%8E%B0.png" alt="volatile内存语义的实现" /></p>
 <p>对于volatile关键字，JMM采用保守策略</p>
 <h3 id="happens-before策略"><a class="markdownIt-Anchor" href="#happens-before策略"></a> happens-before策略</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-a113f57af59bcfc2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="happens-before规则" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/happens-before%E8%A7%84%E5%88%99.png" alt="happens-before规则" /></p>
 <p><strong>注意：</strong><br />
 两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前。</p>
 <h2 id="解决hash冲突的几种方法"><a class="markdownIt-Anchor" href="#解决hash冲突的几种方法"></a> 解决hash冲突的几种方法</h2>

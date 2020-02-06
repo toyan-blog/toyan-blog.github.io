@@ -39,10 +39,10 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-28ab970e8eb08269.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="JVM虚拟机三种算法的比较.png" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%89%E7%A7%8D%E7%AE%97%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83.png" alt="JVM虚拟机三种算法的比较" /></p>
 <h2 id="gc"><a class="markdownIt-Anchor" href="#gc"></a> GC</h2>
 <h3 id="新生代-老年代-持久代"><a class="markdownIt-Anchor" href="#新生代-老年代-持久代"></a> 新生代、老年代、持久代</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-92bac071ea694e25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E6%96%B0%E7%94%9F%E4%BB%A3%E3%80%81%E8%80%81%E5%B9%B4%E4%BB%A3%E3%80%81%E6%8C%81%E4%B9%85%E4%BB%A3.png" alt="" /></p>
 <h3 id="gc用的可达性分析算法中可作为gc-roots对象"><a class="markdownIt-Anchor" href="#gc用的可达性分析算法中可作为gc-roots对象"></a> GC用的可达性分析算法中，可作为GC Roots对象</h3>
 <ul>
 <li>Java虚拟机栈中的对象</li>
@@ -58,16 +58,16 @@
 <li>动态年龄判断，大于等于某个年龄的对象超过了survivor空间的一半，大于等于这个年龄的对象直接进入老年代</li>
 </ul>
 <h3 id="mingc-fullgc"><a class="markdownIt-Anchor" href="#mingc-fullgc"></a> MinGC、FullGC</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-7e6ccd2423e5b396.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/MinGC%E3%80%81FullGC.png" alt="" /></p>
 <h3 id="各个垃圾回收器的工作方式"><a class="markdownIt-Anchor" href="#各个垃圾回收器的工作方式"></a> 各个垃圾回收器的工作方式</h3>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-6488fb132223326d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Serial收集器.png" /></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-40e58a3517c0e9bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ParNew收集器.png" /></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-921e1bde61ed094f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Parallel+Scavenge收集器.png" /></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-4bb4e47c17350450.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CMS收集器.png" /></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-9def677b07f27e8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="G1收集器.png" /><br />
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/Serial%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="Serial收集器" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/ParNew%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="ParNew收集器" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/Parallel%20Scavenge%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="Parallel+Scavenge收集器" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/CMS%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="CMS收集器" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/G1%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="G1收集器" /><br />
 还有两个老年代收集器：Serial old和Parallel old收集器</p>
 <h2 id="java虚拟机内存的划分以及每个区域的功能"><a class="markdownIt-Anchor" href="#java虚拟机内存的划分以及每个区域的功能"></a> Java虚拟机内存的划分以及每个区域的功能</h2>
-<p><img src="https://upload-images.jianshu.io/upload_images/4470227-a7f5bb0eab4a7c1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Java运行时数据区域" /></p>
+<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png" alt="Java运行时数据区域" /></p>
 <h3 id="程序计数器线程私有"><a class="markdownIt-Anchor" href="#程序计数器线程私有"></a> 程序计数器（线程私有）</h3>
 <ul>
 <li>线程创建时创建，执行本地方法时其值为undefined</li>
@@ -179,7 +179,7 @@ java.lang.OutOfMemoryError: PermGen space<br />
 <h2 id="g1-gc"><a class="markdownIt-Anchor" href="#g1-gc"></a> G1 GC</h2>
 <p>G1 GC是目前为止最为复杂、也是最先进的GC，在CMS算法中，GC管理的内存被划分为新生代、老年代和永久代/元空间。这些空间必须是地址连续的。在G1算法中，采用了另外一种完全不同的方式组织堆内存，堆内存被划分为多个大小相等的内存块（Region），每个Region是逻辑连续的一段内存，Region的大小可以通过<code>-XX:G1HeapRegionSize</code>参数指定，如果没有配置，默认堆内存按照2048份均分，最后得到一个合理的大小。在G1中，还有一个特殊的区域，叫Humongous 区域。</p>
 <p>如果一个对象占用的空间超过了分区容量50%以上，G1收集器就认为这是一个巨型对象。这些巨型对象，默认直接会被分配在老年代，但是如果它是一个短期存在的巨型对象，就会对垃圾回收器造成负面影响。为了解决这个问题，G1划分了一个Humongous 区域，它用来专门存放巨型对象，下面的图片展示了G1的内存结构：<br />
-<img src="https://upload-images.jianshu.io/upload_images/7853175-8c5cbf9a129c4d54.png" alt="" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/7853175-8c5cbf9a129c4d54.png" alt="" /></p>
 <h3 id="g1-gc内存结构"><a class="markdownIt-Anchor" href="#g1-gc内存结构"></a> G1 GC内存结构</h3>
 <p>G1 GC的运行可以分为下面几个阶段：</p>
 <ol>
@@ -212,7 +212,7 @@ java.lang.OutOfMemoryError: PermGen space<br />
 </li>
 </ol>
 <p>下面的图片展示了多个GC以及他们工作的分代位置，以及如何组合使用：<br />
-<img src="https://upload-images.jianshu.io/upload_images/7853175-35e974e2a2f37f82.png" alt="" /></p>
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/7853175-35e974e2a2f37f82.png" alt="" /></p>
 <h3 id="jvm-gc的触发条件"><a class="markdownIt-Anchor" href="#jvm-gc的触发条件"></a> JVM GC的触发条件</h3>
 <ol>
 <li>
