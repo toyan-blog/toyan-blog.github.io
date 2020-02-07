@@ -86,10 +86,8 @@
 <p>Java8中对新数组的索引计算采用了更加简洁的算法，不需要每次去计算hash值；而且在旧链表迁移到新链表的时候，如果新表的数组索引位置相同，则链表元素会倒置，而Java8则不会，详细解析可以见<a href="https://tech.meituan.com/java-hashmap.html" target="_blank" rel="noopener">tech.meituan.com/java-hashmap.html</a></p>
 <h3 id="hashmap的table是transient的"><a class="markdownIt-Anchor" href="#hashmap的table是transient的"></a> HashMap的table是transient的</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br></pre></td></tr></table></figure>
-<p>由于table采用了transient修饰，也就是表示其不可以被序列化，它的原因如下：</p>
-<ul>
-<li>HashMap是基于hashCode的，hashcode作为Object的方法，是native修饰的</li>
-</ul>
+<p><strong>由于table采用了transient修饰，也就是表示其不可以被序列化，它的原因如下：</strong><br />
+HashMap是基于hashCode的，hashcode作为Object的方法，是native修饰的</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 <p>这意味着hashCode与底层相关，对于不同平台的虚拟机，会有不用的hashCode实现方式，也就是同一个对象在不同的平台下会有不同的hashcode值。</p>
 <p>由于Java的跨平台特性，如果table不用transient修饰，在虚拟机A下的程序在虚拟机B下就会造成无法正常运行，这样就失去了其跨平台的意义，所以为了避免这样的情况，Java自己重写了其序列化table的方法，源码如下：</p>
