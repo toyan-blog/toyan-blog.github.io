@@ -72,6 +72,36 @@
   </entry>
   
   <entry>
+    <title>服务容灾</title>
+    <link href="https://toyan.top/disaster-recovery/"/>
+    <id>https://toyan.top/disaster-recovery/</id>
+    <published>2019-10-30T16:06:39.000Z</published>
+    <updated>2020-02-07T16:15:58.571Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="技术指标"><a class="markdownIt-Anchor" href="#技术指标"></a> 技术指标</h2><p>RPO（Recovery Point Objective）：即数据恢复点目标，主要指的是业务系统所能容忍的数据丢失量</p><p>RTO（Recovery Time Objective）：即数据时间目标，主要指的是所能容忍的业务停止服务的最长时间，也就是从灾难发生到业务系统恢复服务功能所需要的最短时间周期</p><blockquote><p>RPO针对的是数据丢失，而RTO针对的是服务丢失，二者没有必然的联系。RTO和RPO的确定必须在进行风险分析和业务影响分析后根据不同的业务需求确定。对于不同企业的同一种业务，RTO和RPO的需求也会有所不同。</p></blockquote><h2 id="服务容灾"><a class="markdownIt-Anchor" href="#服务容灾"></a> 服务容灾</h2><h3 id="常见事故及如何容灾"><a class="markdownIt-Anchor" href="#常见事故及如何容灾"></a> 常见事故及如何容灾</h3><p>服务器故障死机——备份（硬件方案、软件方案）<br />服务雪崩——负载均衡、过载保护<br />网络环境恶劣——多运营商、异步部署就近服务</p><h3 id="设计方案"><a class="markdownIt-Anchor" href="#设计方案"></a> 设计方案</h3><h4 id="逻辑层容灾"><a class="markdownIt-Anchor" href="#逻辑层容灾"></a> 逻辑层容灾</h4><p>容灾模型：1+1容灾、1+n容灾、n+1容灾<br />切换方式主要有冷切、热切、双在线三种方式</p><p><strong>冷切</strong></p><blockquote><p>主系统跑100%业务，备系统跑0%业务；当主系统出现问题，切到备系统<br />通用性，切换到备系统有一定的时间不能提供服务，并且备系统的可信度低<br />MFS网盘文件备份数据路径<br />简单（保序），有业务无关的解决方案（HB），切换后是否正常</p></blockquote><p><strong>热切</strong></p><blockquote><p>主备系统各跑一部分业务，主系统出现问题，业务全部由备系统提供服务<br />通用性，备系统可用性较高<br />大多数系统使用：Gateway/Ad Server/Retrieval/Sku/User<br />与业务无关的解决方案（名字服务），注意切换时带宽，负载压力</p></blockquote><p><strong>双在线</strong></p><blockquote><p>主备系统提供相同的服务，各跑100%业务，请求者丢弃其中一个系统的数据<br />专用性，备系统可用性高，流量高<br />高成功率要求（RPO短），极少数核心系统用<br />复杂，通常是业务相关（有开发量），资源浪费</p></blockquote><h4 id="数据层容灾"><a class="markdownIt-Anchor" href="#数据层容灾"></a> 数据层容灾</h4><p>考虑恢复时间，采用1+n容灾<br />主要有一个主机多个备机（中心化）和不分主备（完全分布式）两种方式<br /><strong>中心化：采用快同步（增量同步）+慢同步（全量同步）的方式来保持数据一致性</strong></p><blockquote><p>快同步：当有数据写入的时候，先写到主机上，再由主机同步到备机上，主机维护同步信息队列，同步信息列表<br />慢同步：主机的同步进程定时给备机发送数据信息验证码，通过备机返回的应答，确定需要传送的缺失数据</p></blockquote><p>同时需要监控，保证不能有两个中心节点<br /><strong>去中心化（完全分布式）：数据的一致性难以保证</strong><br />简单的案例</p><blockquote><p>在t1时刻，修改D1机器上的数据，发送同步数据包给D2<br />在t2时刻，修改D2机器上的数据，发送同步包给D1<br />在t3时刻，D2收到D1的同步数据包，发现时间戳比自己的小，丢弃数据<br />在t4时刻，D1收到D2的同步数据包，校验时间通过，更新D1上的数据，如此，D1在t1时刻的修改就作废</p></blockquote><p>优化方式：给每个数据（或每组）添加一个时间戳，同步数据只校验数据本身的时间戳</p><blockquote><p>如上所述，分布式的数据存储在使用上确实不如中心化的便捷；但在某些场景下，却非常适用：数据有效性短</p><ul><li>频繁变化的最后一次操作,最后一次登录时间，IP等；在最遭的情况下，可以使用当前登录的时间，IP信息</li><li>登录的通行证：此场景下，可以在通行正中添加生成证书的服务器信息，在同步失败或其他原因引起的在提供服务器上找不到证书时，只要能解开通行证，取出生成的信息，即可到生成服务器上验证；在最糟的情况下，可重新登录，再生成新的通行证</li></ul></blockquote><p><strong>R + W &gt; N（Amazon的存储）</strong><br />大致描述为：当有5个数据节点时，设置写入成功的节点数为W时，那么在读的时候，成功的节点数达到R，满足R + W &gt; N，那么表示这个数据已经被正确读取</p><p>当系统设计只需要写3个数据节点便可以认为数据写入成功，那么当我们去读取数据时，只要能至少从3个节点中读出数据便可以认为读取数据成功<br /><em>3 + 3 &gt; 5 均衡    5 + 1 &gt; 5 重写  1 + 5 &gt; 5 重读</em></p><p><strong>对等模型的RWN方案</strong><br />Nr + Nw &gt; N（强一致性，抽屉原理）<br />Nr + Nw &lt;= N（弱一致性）<br />Quorum协议：Nw &gt; N/2（每次写入保证写入大于N/2个节点，每次读保证从大于N/2个节点读）<br />数据副本数N：N &gt;= 2，N大，安全，高qps，同步成本高</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;技术指标&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#技术指标&quot;&gt;&lt;/a&gt; 技术指标&lt;/h2&gt;
+&lt;p&gt;RPO（Recovery Point Objective）：即数据恢复点目标，主要指的是业务系统所能容忍的数据丢失量&lt;/p&gt;
+&lt;p&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Web" scheme="https://toyan.top/categories/Web/"/>
+    
+      <category term="服务" scheme="https://toyan.top/categories/Web/%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+      <category term="Web" scheme="https://toyan.top/tags/Web/"/>
+    
+  </entry>
+  
+  <entry>
     <title>SQL</title>
     <link href="https://toyan.top/sql-summary/"/>
     <id>https://toyan.top/sql-summary/</id>
