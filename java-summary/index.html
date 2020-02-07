@@ -19,12 +19,19 @@
     noSupport: 'The browser does not support'
   }
 } </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="ToyanのBlog" type="application/atom+xml">
-</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"><span class="toc-number">1.</span> <span class="toc-text"> Java的四个特性（抽象、封装、继承、多态），对多态的理解（多态的实现方式）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象和面向过程的区别"><span class="toc-number">2.</span> <span class="toc-text"> 面向对象和面向过程的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重载与重写"><span class="toc-number">3.</span> <span class="toc-text"> 重载与重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象开发的六个基本准则单一职责-开放封闭-里氏替换-依赖倒置-合成聚合复用-接口隔离迪米特法则"><span class="toc-number">4.</span> <span class="toc-text"> 面向对象开发的六个基本准则（单一职责、开放封闭、里氏替换、依赖倒置、合成聚合复用、接口隔离），迪米特法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static与final的区别"><span class="toc-number">5.</span> <span class="toc-text"> static与final的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashmap和hashtable的区别hashmap中的key可以是任何对象或数据类型吗"><span class="toc-number">6.</span> <span class="toc-text"> HashMap和Hashtable的区别，HashMap中的key可以是任何对象或数据类型吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashmap与concurrenthashmap"><span class="toc-number">7.</span> <span class="toc-text"> HashMap与concurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#区别"><span class="toc-number">7.1.</span> <span class="toc-text"> 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrenthashmap线程安全吗如何保证线程安全"><span class="toc-number">7.2.</span> <span class="toc-text"> concurrentHashMap线程安全吗，如何保证线程安全？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string-stringbuffer-stringbuilder"><span class="toc-number">8.</span> <span class="toc-text"> String、StringBuffer、StringBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"><span class="toc-number">9.</span> <span class="toc-text"> String重写了Object的hashCode和toString，重写equals()不重写hashCode()有什么问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java序列化"><span class="toc-number">10.</span> <span class="toc-text"> Java序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">10.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作用"><span class="toc-number">10.2.</span> <span class="toc-text"> 作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#序列化与反序列化"><span class="toc-number">10.3.</span> <span class="toc-text"> 序列化与反序列化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number">11.</span> <span class="toc-text"> 多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">12.</span> <span class="toc-text"> 线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字与synchronized的区别"><span class="toc-number">13.</span> <span class="toc-text"> volatile关键字与synchronized的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep与wait"><span class="toc-number">14.</span> <span class="toc-text"> sleep()与wait()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized与lock"><span class="toc-number">15.</span> <span class="toc-text"> synchronized与lock</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized与static-synchronized的区别"><span class="toc-number">15.1.</span> <span class="toc-text"> synchronized与static synchronized的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">16.</span> <span class="toc-text"> 异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java中的nio-bio-aio分别是什么"><span class="toc-number">17.</span> <span class="toc-text"> Java中的NIO、BIO、AIO分别是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bio"><span class="toc-number">17.1.</span> <span class="toc-text"> BIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nio"><span class="toc-number">17.2.</span> <span class="toc-text"> NIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aio"><span class="toc-number">17.3.</span> <span class="toc-text"> AIO</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java内存模型java-memory-modeljmm"><span class="toc-number">18.</span> <span class="toc-text"> Java内存模型（Java Memory model，JMM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间的通信"><span class="toc-number">18.1.</span> <span class="toc-text"> 线程之间的通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间的同步"><span class="toc-number">18.2.</span> <span class="toc-text"> 线程之间的同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java的并发采用的是共享内存模型"><span class="toc-number">18.3.</span> <span class="toc-text"> Java的并发采用的是共享内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jvm对java内存模型的实现"><span class="toc-number">18.4.</span> <span class="toc-text"> JVM对Java内存模型的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享对象的可见性与竞争现象"><span class="toc-number">18.5.</span> <span class="toc-text"> 共享对象的可见性与竞争现象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile和synchronized的区别"><span class="toc-number">18.6.</span> <span class="toc-text"> volatile和synchronized的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java内存模型的基础原理"><span class="toc-number">18.7.</span> <span class="toc-text"> Java内存模型的基础原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存屏障memory-barrier"><span class="toc-number">18.8.</span> <span class="toc-text"> 内存屏障（Memory Barrier）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#happens-before策略"><span class="toc-number">18.9.</span> <span class="toc-text"> happens-before策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决hash冲突的几种方法"><span class="toc-number">19.</span> <span class="toc-text"> 解决hash冲突的几种方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开放地址法"><span class="toc-number">19.1.</span> <span class="toc-text"> 开放地址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拉链法"><span class="toc-number">19.2.</span> <span class="toc-text"> 拉链法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再散列双重散列-多重散列"><span class="toc-number">19.3.</span> <span class="toc-text"> 再散列（双重散列、多重散列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立一个公共溢出区"><span class="toc-number">19.4.</span> <span class="toc-text"> 建立一个公共溢出区</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">17</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">14</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">Java总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">基础知识总结</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/Java/">Java</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">7k</span><span class="post-meta__separator">|</span><span>Reading time: 21 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"><a class="markdownIt-Anchor" href="#java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"></a> Java的四个特性（抽象、封装、继承、多态），对多态的理解（多态的实现方式）</h2>
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"><span class="toc-number">1.</span> <span class="toc-text"> Java的四个特性（抽象、封装、继承、多态），对多态的理解（多态的实现方式）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象和面向过程的区别"><span class="toc-number">2.</span> <span class="toc-text"> 面向对象和面向过程的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重载与重写"><span class="toc-number">3.</span> <span class="toc-text"> 重载与重写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象开发的六个基本准则单一职责-开放封闭-里氏替换-依赖倒置-合成聚合复用-接口隔离迪米特法则"><span class="toc-number">4.</span> <span class="toc-text"> 面向对象开发的六个基本准则（单一职责、开放封闭、里氏替换、依赖倒置、合成聚合复用、接口隔离），迪米特法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static与final的区别"><span class="toc-number">5.</span> <span class="toc-text"> static与final的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashmap和hashtable的区别hashmap中的key可以是任何对象或数据类型吗"><span class="toc-number">6.</span> <span class="toc-text"> HashMap和Hashtable的区别，HashMap中的key可以是任何对象或数据类型吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashmap与concurrenthashmap"><span class="toc-number">7.</span> <span class="toc-text"> HashMap与concurrentHashMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string-stringbuffer-stringbuilder"><span class="toc-number">8.</span> <span class="toc-text"> String、StringBuffer、StringBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"><span class="toc-number">9.</span> <span class="toc-text"> String重写了Object的hashCode和toString，重写equals()不重写hashCode()有什么问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java序列化"><span class="toc-number">10.</span> <span class="toc-text"> Java序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number">11.</span> <span class="toc-text"> 多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">12.</span> <span class="toc-text"> 线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字与synchronized的区别"><span class="toc-number">13.</span> <span class="toc-text"> volatile关键字与synchronized的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep与wait"><span class="toc-number">14.</span> <span class="toc-text"> sleep()与wait()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized与lock"><span class="toc-number">15.</span> <span class="toc-text"> synchronized与lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">16.</span> <span class="toc-text"> 异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java中的nio-bio-aio分别是什么"><span class="toc-number">17.</span> <span class="toc-text"> Java中的NIO、BIO、AIO分别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java内存模型java-memory-modeljmm"><span class="toc-number">18.</span> <span class="toc-text"> Java内存模型（Java Memory model，JMM）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间的通信"><span class="toc-number">18.1.</span> <span class="toc-text"> 线程之间的通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间的同步"><span class="toc-number">18.2.</span> <span class="toc-text"> 线程之间的同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java的并发采用的是共享内存模型"><span class="toc-number">18.3.</span> <span class="toc-text"> Java的并发采用的是共享内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jvm对java内存模型的实现"><span class="toc-number">18.4.</span> <span class="toc-text"> JVM对Java内存模型的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享对象的可见性与竞争现象"><span class="toc-number">18.5.</span> <span class="toc-text"> 共享对象的可见性与竞争现象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile和synchronized的区别"><span class="toc-number">18.6.</span> <span class="toc-text"> volatile和synchronized的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java内存模型的基础原理"><span class="toc-number">18.7.</span> <span class="toc-text"> Java内存模型的基础原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存屏障memory-barrier"><span class="toc-number">18.8.</span> <span class="toc-text"> 内存屏障（Memory Barrier）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#happens-before策略"><span class="toc-number">18.9.</span> <span class="toc-text"> happens-before策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决hash冲突的几种方法"><span class="toc-number">19.</span> <span class="toc-text"> 解决hash冲突的几种方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开放地址法"><span class="toc-number">19.1.</span> <span class="toc-text"> 开放地址法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拉链法"><span class="toc-number">19.2.</span> <span class="toc-text"> 拉链法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再散列双重散列-多重散列"><span class="toc-number">19.3.</span> <span class="toc-text"> 再散列（双重散列、多重散列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建立一个公共溢出区"><span class="toc-number">19.4.</span> <span class="toc-text"> 建立一个公共溢出区</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">17</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">14</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">Java总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-02</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">基础知识总结</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/Java/">Java</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">7.1k</span><span class="post-meta__separator">|</span><span>Reading time: 21 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"><a class="markdownIt-Anchor" href="#java的四个特性抽象-封装-继承-多态对多态的理解多态的实现方式"></a> Java的四个特性（抽象、封装、继承、多态），对多态的理解（多态的实现方式）</h2>
 <ul>
-<li>抽象：抽象是将一类对象的共同特征总结出来构造类的过程。包括数据抽象和行为抽象两个方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。</li>
-<li>继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（超类、基类）；得到继承信息的类被称为子类（派生类），继承让变化中的软件系统有了一定的延续性，同时继承也是封装程序中可变因素的重要手段。</li>
-<li>封装：通常认为封装是将数据与操作数据的方法绑定起来，对数据的访问只能通过已定义的接口。面向对象的本质就是将现实世界描绘成一系列完全自治、封闭的对象。我们在类中编写的方法是对实现细节的一种封装；我们编写的一个类就是对数据和数据操作的封装。封装就是隐藏一切可隐藏的东西，只向外提供简单的编程接口。</li>
-<li>多态
+<li>
+<p>抽象：抽象是将一类对象的共同特征总结出来构造类的过程。包括数据抽象和行为抽象两个方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。</p>
+</li>
+<li>
+<p>继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（超类、基类）；得到继承信息的类被称为子类（派生类），继承让变化中的软件系统有了一定的延续性，同时继承也是封装程序中可变因素的重要手段。</p>
+</li>
+<li>
+<p>封装：通常认为封装是将数据与操作数据的方法绑定起来，对数据的访问只能通过已定义的接口。面向对象的本质就是将现实世界描绘成一系列完全自治、封闭的对象。我们在类中编写的方法是对实现细节的一种封装；我们编写的一个类就是对数据和数据操作的封装。封装就是隐藏一切可隐藏的东西，只向外提供简单的编程接口。</p>
+</li>
+<li>
+<p>多态</p>
 <ul>
 <li>方法重载（overload）实现的是编译时的多态性（也成为前向绑定）</li>
 <li>方法重写（overwrite）实现的是运行时的多态性（也成为后向绑定）</li>
@@ -35,9 +42,14 @@
 </ul>
 <h2 id="面向对象和面向过程的区别"><a class="markdownIt-Anchor" href="#面向对象和面向过程的区别"></a> 面向对象和面向过程的区别？</h2>
 <ul>
-<li>面向过程就像是一个细心的管家，事无具细的都要考虑到。而面向对象就像是一个家用电器，你只需要知道他的功能，不需要知道他的工作原理</li>
-<li>面向过程是一种以时间为中心的编程思想，就是分析出解决问题所需的步骤，然后用函数把这些步骤实现，并按顺序调用。面向对象是以“对象”为中心的编程思想</li>
-<li>举例：汽车发送、汽车到站
+<li>
+<p>面向过程就像是一个细心的管家，事无具细的都要考虑到。而面向对象就像是一个家用电器，你只需要知道他的功能，不需要知道他的工作原理</p>
+</li>
+<li>
+<p>面向过程是一种以时间为中心的编程思想，就是分析出解决问题所需的步骤，然后用函数把这些步骤实现，并按顺序调用。面向对象是以“对象”为中心的编程思想</p>
+</li>
+<li>
+<p>举例：汽车发送、汽车到站</p>
 <ul>
 <li>对于面向过程来说，这是两个事件，面向过程编程我们关心的是事件，而不是汽车本身。针对上述过程，形成两个函数，依次调用</li>
 <li>对于面向对象来说，我们关心的是汽车这类对象，两个事件只是这类对象所具有的行为。而且对于这两个行为没有顺序要求</li>
@@ -46,17 +58,33 @@
 </ul>
 <h2 id="重载与重写"><a class="markdownIt-Anchor" href="#重载与重写"></a> 重载与重写</h2>
 <ul>
-<li>重载：重载发生在同一个类中，同名的方法如果有不同的参数列表（参数类型、参数个数或者两者都不同）则视为重载</li>
-<li>重写：重写发生在子类与父类之间，重写要求子类重写方法与父类被重写方法具有相同的返回参数，比父类方法更好访问，不能比父类被重写方法声明更多的异常（里氏代换原则），根据不同的子类对象确定调用哪个对象</li>
+<li>
+<p>重载：重载发生在同一个类中，同名的方法如果有不同的参数列表（参数类型、参数个数或者两者都不同）则视为重载</p>
+</li>
+<li>
+<p>重写：重写发生在子类与父类之间，重写要求子类重写方法与父类被重写方法具有相同的返回参数，比父类方法更好访问，不能比父类被重写方法声明更多的异常（里氏代换原则），根据不同的子类对象确定调用哪个对象</p>
+</li>
 </ul>
 <h2 id="面向对象开发的六个基本准则单一职责-开放封闭-里氏替换-依赖倒置-合成聚合复用-接口隔离迪米特法则"><a class="markdownIt-Anchor" href="#面向对象开发的六个基本准则单一职责-开放封闭-里氏替换-依赖倒置-合成聚合复用-接口隔离迪米特法则"></a> 面向对象开发的六个基本准则（单一职责、开放封闭、里氏替换、依赖倒置、合成聚合复用、接口隔离），迪米特法则</h2>
 <ul>
-<li>单一职责：一个类只能它该做的事情（高内聚），在面向对象中，如果只让一个类完成它该做的事，而不涉及与它无关的领域就是践行了高内聚的原则，这个类就是单一职责</li>
-<li>开放封闭：软件实体应当对扩展开放，对修改关闭。要做到开闭有两点：抽象是关键，一个系统如果没有抽象类或者接口系统就没有扩展点；封装可变性，将系统中可变因素封装在一个继承结构中，如果多个可变因素混杂在一起，系统将复杂而混乱</li>
-<li>里氏替换：任何时候都可以用子类替换父类，子类一定是增加了父类的能力而不是减少，因为子类比父类的能力更多，把能力多的对象当成能力少的对象来用没有问题</li>
-<li>依赖倒置：面向接口编程（声明方法的参数类型、方法返回类型，变量的引用类型要尽量使用抽象类型而不是具体类型，因为抽象类型可以被其子类型所替代）</li>
-<li>合成聚合复用：优先使用聚合或合成关系复用代码</li>
-<li>接口隔离：接口不要大而全，要小而专，一个接口只应该描述一种能力，接口也应该是高内聚的</li>
+<li>
+<p>单一职责：一个类只能它该做的事情（高内聚），在面向对象中，如果只让一个类完成它该做的事，而不涉及与它无关的领域就是践行了高内聚的原则，这个类就是单一职责</p>
+</li>
+<li>
+<p>开放封闭：软件实体应当对扩展开放，对修改关闭。要做到开闭有两点：抽象是关键，一个系统如果没有抽象类或者接口系统就没有扩展点；封装可变性，将系统中可变因素封装在一个继承结构中，如果多个可变因素混杂在一起，系统将复杂而混乱</p>
+</li>
+<li>
+<p>里氏替换：任何时候都可以用子类替换父类，子类一定是增加了父类的能力而不是减少，因为子类比父类的能力更多，把能力多的对象当成能力少的对象来用没有问题</p>
+</li>
+<li>
+<p>依赖倒置：面向接口编程（声明方法的参数类型、方法返回类型，变量的引用类型要尽量使用抽象类型而不是具体类型，因为抽象类型可以被其子类型所替代）</p>
+</li>
+<li>
+<p>合成聚合复用：优先使用聚合或合成关系复用代码</p>
+</li>
+<li>
+<p>接口隔离：接口不要大而全，要小而专，一个接口只应该描述一种能力，接口也应该是高内聚的</p>
+</li>
 </ul>
 <p>迪米特法则：又称为最少知识原则，一个对象应当对其他对象有尽可能少的了解</p>
 <h2 id="static与final的区别"><a class="markdownIt-Anchor" href="#static与final的区别"></a> static与final的区别</h2>
@@ -92,50 +120,66 @@ Hashtable和HashMap都能通过values()方法返回一个Collection，然后遍�
 <li>Hashtable的hash数组大小是11，增加方式是old*2+1，hashMap的默认大小是16，而且一定是2的指数</li>
 <li>hashtable是基于Dictionary，hashMap是基于AbstractMap类</li>
 </ul>
-<p>HashMap的key可以为null，但不可以为可变对象。如果是可变对象时，对象的属性改变，则对象的hashCode也进行了相应的改变，导致下次无法查找到已存在Map的数据。<br />
-如果可变对象被用作HashMap的键时，在改变对象的状态时，不要再改变其哈希值，我们只需要保证成员变量的改变能保证该对象的哈希值不变即可。<br />
-hashtable是线程安全的，其实是在对应的方法添加了synchronized关键字进行修饰，由于在执行此方法的时候需要获得对象锁，则执行起来比较慢。所以可以使用concurrentHashMap</p>
+<p>HashMap的key可以为null，但不可以为可变对象。如果是可变对象时，对象的属性改变，则对象的hashCode也进行了相应的改变，导致下次无法查找到已存在Map的数据。</p>
+<p>如果可变对象被用作HashMap的键时，在改变对象的状态时，不要再改变其哈希值，我们只需要保证成员变量的改变能保证该对象的哈希值不变即可。</p>
+<p>hashtable是线程安全的，其实是在对应的方法添加了synchronized关键字进行修饰，由于在执行此方法的时候需要获得对象锁，则执行起来比较慢。所以可以使用concurrentHashMap</p>
 <h2 id="hashmap与concurrenthashmap"><a class="markdownIt-Anchor" href="#hashmap与concurrenthashmap"></a> HashMap与concurrentHashMap</h2>
-<h3 id="区别"><a class="markdownIt-Anchor" href="#区别"></a> 区别</h3>
-<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/HashMap%E4%B8%8EconcurrentHashMap%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="HashMap与concurrentHashMap的区别" /></p>
-<h3 id="concurrenthashmap线程安全吗如何保证线程安全"><a class="markdownIt-Anchor" href="#concurrenthashmap线程安全吗如何保证线程安全"></a> concurrentHashMap线程安全吗，如何保证线程安全？</h3>
+<ol>
+<li>
+<p>区别<br />
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/HashMap%E4%B8%8EconcurrentHashMap%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="HashMap与concurrentHashMap的区别" /></p>
+</li>
+<li>
+<p>concurrentHashMap线程安全吗，如何保证线程安全？</p>
 <ul>
 <li>
 <p>hashtable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问hashtable的线程都必须竞争同一把锁，当容器中有多把锁时，每一把锁用于锁住容器中的一部分数据，那么当多线程访问容器内不同数据段的数据时，线程间不会存在锁竞争，从而提高了并发访问的效率，这也是concurrentHashMap采用的锁分段技术，当一个线程访问其中一个段的数据时，其他段的数据也能被其他线程所访问</p>
 </li>
 <li>
-<p>get的高效之处：get过程不需要加锁，除非读到的值是空的才需要加锁重读</p>
+<p>get的高效之处：get过程不需要加锁，除非读到的值是空的才需要加锁重读<br />
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84get%E6%96%B9%E6%B3%95%E9%AB%98%E6%95%88%E4%B9%8B%E5%A4%84.png" alt="concurrentHashMap的get方法高效之处" /></p>
+</li>
+<li>
+<p>put方法首先定位到segment，然后在segment里进行插入操作<br />
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84put%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4.png" alt="concurrentHashMap的put操作步骤" /></p>
 </li>
 </ul>
-<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84get%E6%96%B9%E6%B3%95%E9%AB%98%E6%95%88%E4%B9%8B%E5%A4%84.png" alt="concurrentHashMap的get方法高效之处" /></p>
-<ul>
-<li>put方法首先定位到segment，然后在segment里进行插入操作</li>
-</ul>
-<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/concurrentHashMap%E7%9A%84put%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4.png" alt="concurrentHashMap的put操作步骤" /></p>
+</li>
+</ol>
 <h2 id="string-stringbuffer-stringbuilder"><a class="markdownIt-Anchor" href="#string-stringbuffer-stringbuilder"></a> String、StringBuffer、StringBuilder</h2>
 <p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/String%E3%80%81StringBuffer%E3%80%81StringBuilder.png" alt="String、StringBuffer、StringBuilder" /></p>
 <p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/String%E7%9A%84%E4%B8%8D%E5%8F%98%E6%80%A7.png" alt="String的不变性" /></p>
 <h2 id="string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"><a class="markdownIt-Anchor" href="#string重写了object的hashcode和tostring重写equals不重写hashcode有什么问题"></a> String重写了Object的hashCode和toString，重写equals()不重写hashCode()有什么问题？</h2>
 <ul>
-<li>当equals方法被重写，通常需要重写hashCode方法，以保证两个相等的对象必须有相同的hashCode
+<li>
+<p>当equals方法被重写，通常需要重写hashCode方法，以保证两个相等的对象必须有相同的hashCode</p>
 <ul>
 <li>object1.equals(object2)时为true，则object1.hashCode()==object2.hashCode()也为true</li>
 <li>object1.hashCode()==object2.hashCode()为false，则 object1.equals(object2)一定为false</li>
 <li>object1.hashCode()==object2.hashCode()为true，则object1.equals(object2)状态不确定</li>
 </ul>
 </li>
-<li>在存储散列集合(如Set)时，如果原对象.equals(新对象)，但如果没有对hashCode重写，即两个对象拥有不同的hashCode，则在集合中会存储两个值相同的对象，从而导致混淆。<strong>因此，重写equals方法时，必须重写hashCode方法</strong></li>
+<li>
+<p>在存储散列集合(如Set)时，如果原对象.equals(新对象)，但如果没有对hashCode重写，即两个对象拥有不同的hashCode，则在集合中会存储两个值相同的对象，从而导致混淆。<strong>因此，重写equals方法时，必须重写hashCode方法</strong></p>
+</li>
 </ul>
 <h2 id="java序列化"><a class="markdownIt-Anchor" href="#java序列化"></a> Java序列化</h2>
-<h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
-<p>将那些实现了Serializable接口的对象转换成一个字节序列，并能够在以后将这个字节序列完全恢复到原来的对象，序列化可以弥补不同操作系统之间的差异</p>
-<h3 id="作用"><a class="markdownIt-Anchor" href="#作用"></a> 作用</h3>
+<ol>
+<li>
+<p>定义：将那些实现了Serializable接口的对象转换成一个字节序列，并能够在以后将这个字节序列完全恢复到原来的对象，序列化可以弥补不同操作系统之间的差异</p>
+</li>
+<li>
+<p>作用</p>
 <ul>
 <li>Java远程方法调用</li>
 <li>对JavaBeans进行序列化</li>
 </ul>
-<h3 id="序列化与反序列化"><a class="markdownIt-Anchor" href="#序列化与反序列化"></a> 序列化与反序列化</h3>
-<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.png" alt="序列化与反序列化" /></p>
+</li>
+<li>
+<p>序列化与反序列化<br />
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96.png" alt="序列化与反序列化" /></p>
+</li>
+</ol>
 <p><em>注意事项：</em></p>
 <ul>
 <li>被static修饰的属性不会被序列化</li>
@@ -173,7 +217,7 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 </ul>
 <h2 id="synchronized与lock"><a class="markdownIt-Anchor" href="#synchronized与lock"></a> synchronized与lock</h2>
 <p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/synchronized%E4%B8%8Elock%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="synchronized与lock的区别" /></p>
-<h3 id="synchronized与static-synchronized的区别"><a class="markdownIt-Anchor" href="#synchronized与static-synchronized的区别"></a> synchronized与static synchronized的区别</h3>
+<p>synchronized与static synchronized的区别：</p>
 <ul>
 <li>synchronized是对类的当前实例进行加锁，防止其他线程同时访问该类的该实例的所有synchronized锁，同一个类的不同实例之间没有这种约束</li>
 <li>static synchronized是控制类的所有实例的访问，限制线程同时访问JVM中该类的所有实例同时访问对应的代码块</li>
@@ -194,21 +238,29 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 </li>
 </ul>
 <h2 id="java中的nio-bio-aio分别是什么"><a class="markdownIt-Anchor" href="#java中的nio-bio-aio分别是什么"></a> Java中的NIO、BIO、AIO分别是什么？</h2>
-<h3 id="bio"><a class="markdownIt-Anchor" href="#bio"></a> BIO</h3>
+<ol>
+<li>
+<p>BIO</p>
 <ul>
 <li>同步并阻塞，服务器实现模式为<code>一个连接一个线程</code>，即客户端有请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情就会造成不必要的线程开销，可以通过线程池机制来改善</li>
 <li>BIO方式适用于<code>连接数目比较小且固定的架构</code>，这种方式对服务器资源要求比较高，并发局限于应用中</li>
 </ul>
-<h3 id="nio"><a class="markdownIt-Anchor" href="#nio"></a> NIO</h3>
+</li>
+<li>
+<p>NIO</p>
 <ul>
 <li>同步非阻塞，服务器实现模式为<code>一个请求一个线程</code>，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/O请求时，才启动一个线程进行处理</li>
 <li>NIO方式适用于<code>连接数多且连接比较短的架构</code>，比如聊天服务器，并发局限于应用中</li>
 </ul>
-<h3 id="aio"><a class="markdownIt-Anchor" href="#aio"></a> AIO</h3>
+</li>
+<li>
+<p>AIO</p>
 <ul>
 <li>异步非阻塞，服务器实现模式为<code>一个有效请求一个线程</code>，客户端的I/O请求都是由OS先完成了再通知服务器应用去启动线程进行处理</li>
 <li>AIO方式适用于<code>连接数目多且连接比较长的架构</code>，比如相册服务器，充分调用OS参与并发操作</li>
 </ul>
+</li>
+</ol>
 <h2 id="java内存模型java-memory-modeljmm"><a class="markdownIt-Anchor" href="#java内存模型java-memory-modeljmm"></a> Java内存模型（Java Memory model，JMM）</h2>
 <p>对于并发编程，有两个关键问题：线程之间的<strong>通信和同步</strong></p>
 <h3 id="线程之间的通信"><a class="markdownIt-Anchor" href="#线程之间的通信"></a> 线程之间的通信</h3>
@@ -219,21 +271,23 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 在共享内存并发模型里，同步是显式进行的。程序必须显式指定某个方法或某段代码需要在线程之间互斥执行。<br />
 在消息传递的并发模型里，由于消息的发送必须在消息的接收之前，因此同步是隐式进行的。</p>
 <h3 id="java的并发采用的是共享内存模型"><a class="markdownIt-Anchor" href="#java的并发采用的是共享内存模型"></a> Java的并发采用的是共享内存模型</h3>
-<p>JMM决定一个线程对共享变量的写入何时对另一个线程可见。从抽象的角度来讲，JMM定义了线程和主内存之间的抽象关系：<strong>线程之间的共享变量存储在主内存中，每个线程都有一个私有的本地内存，本地内存中存储了该线程以读/写共享变量的副本。<strong>本地内存是JMM的一个抽象概念，并不真实存在。<br />
-<em>线程之间的通信方式：首先，线程A把本地内存A中更新过的共享变量刷新到主内存中。然后，线程B到主内存中去读取线程A之前已更新过的共享变量。</em><br />
-从整体来看，这两个步骤实质上是线程A在向线程B发送消息，而且这个通信过程必须要经过主内存。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序员提供</strong>内存可见性保证</strong>。</p>
+<p>JMM决定一个线程对共享变量的写入何时对另一个线程可见。从抽象的角度来讲，JMM定义了线程和主内存之间的抽象关系：**线程之间的共享变量存储在主内存中，每个线程都有一个私有的本地内存，本地内存中存储了该线程以读/写共享变量的副本。**本地内存是JMM的一个抽象概念，并不真实存在。</p>
+<p><em>线程之间的通信方式：首先，线程A把本地内存A中更新过的共享变量刷新到主内存中。然后，线程B到主内存中去读取线程A之前已更新过的共享变量。</em></p>
+<p>从整体来看，这两个步骤实质上是线程A在向线程B发送消息，而且这个通信过程必须要经过主内存。JMM通过控制主内存与每个线程的本地内存之间的交互，来为Java程序员提供<strong>内存可见性保证</strong>。</p>
 <h3 id="jvm对java内存模型的实现"><a class="markdownIt-Anchor" href="#jvm对java内存模型的实现"></a> JVM对Java内存模型的实现</h3>
-<p>在JVM内部，Java内存模型把内存分成了两个部分：线程栈区和堆区。下图展示了Java内存模型在JVM中的逻辑视图：</p>
-<p><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/20160921182837697.jpg" alt="" /></p>
+<p>在JVM内部，Java内存模型把内存分成了两个部分：线程栈区和堆区。下图展示了Java内存模型在JVM中的逻辑视图：<br />
+<img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/20160921182837697.jpg" alt="" /></p>
 <p>JVM中运行的每个线程都拥有自己的线程栈，线程栈包括了当前线程执行的方法调用相关信息，我们也把它称作调用栈。随着代码的执行，调用栈会不断的变化。</p>
 <p><strong>线程栈</strong>还包含了当前方法的所有本地变量信息。一个线程只能读取自己的线程栈，也就是说，**线程中的本地变量对其他线程是不可见的。**即使两个线程执行的是同一段代码，它们也会各自在自己的线程栈创建本地变量，因此，<strong>每个线程中的本地变量都有自己的版本。</strong><br />
 所有原始类型（boolean、byte、short、int、long、char、float、double）的本地变量都直接保存在线程栈中，对于它们的值各个线程都相互独立。对于原始类型的本地变量，一个线程可以传递一个副本给另一个线程，当它们之间是无法共享的。</p>
 <p><strong>堆区</strong>包含了Java应用创建的所有对象信息，不管对象是哪个线程创建的，其中的对象包括原始类型的封装类（如Byte、Integer、Long等）。不管对象是属于一个成员变量还是方法中的本地变量，它都会被存储在堆区。</p>
-<p><strong>一个本地变量如果是原始类型，那么它会被完全存储到栈区。</strong></p>
-<p><strong>一个本地变量也有可能是一个对象的引用，这种情况下，这个本地引用会被存储到栈中，但是对象本身仍然存储在堆区。</strong></p>
-<p><strong>对于一个对象的成员方法，这些方法中包含本地变量，仍需要存储在栈区，即使它们所属的对象在堆区。</strong></p>
-<p><strong>对于一个对象的成员变量，不管它是原始类型还是包装类型，都会被存储到堆区。</strong></p>
-<p><strong>Static类型的变量以及类本身相关信息都会随着类本身存储在堆区。</strong></p>
+<ul>
+<li>一个本地变量如果是原始类型，那么它会被完全存储到栈区。</li>
+<li>一个本地变量也有可能是一个对象的引用，这种情况下，这个本地引用会被存储到栈中，但是对象本身仍然存储在堆区。</li>
+<li>对于一个对象的成员方法，这些方法中包含本地变量，仍需要存储在栈区，即使它们所属的对象在堆区。</li>
+<li>对于一个对象的成员变量，不管它是原始类型还是包装类型，都会被存储到堆区。</li>
+<li>Static类型的变量以及类本身相关信息都会随着类本身存储在堆区。</li>
+</ul>
 <p>堆中的对象可以被多线程共享。如果一个线程获得一个对象的应用，它便可访问这个对象的成员变量。如果两个线程同时调用了同一个对象的同一个方法，那么这两个线程便可同时访问这个对象的成员变量，但是对于本地变量，每个线程都会拷贝一份到自己的线程栈中。</p>
 <p>下图是上面的全部过程：<br />
 <img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/20160921182948601.jpg" alt="" /></p>
@@ -241,13 +295,19 @@ hashtable是线程安全的，其实是在对应的方法添加了synchronized�
 <p>volatile关键字可以保证变量会直接从主存读取，而对变量的更新也会直接写到主存。volatile原理是基于CPU内存屏障指令实现的。<br />
 synchronized代码块可以保证同一个时刻只能有一个线程进入代码竞争区，synchronized代码块也能保证代码块中所有变量都将会从主存中读，当线程退出代码块时，对所有变量的更新将会flush到主存，不管这些变量是不是volatile类型的。</p>
 <h3 id="volatile和synchronized的区别"><a class="markdownIt-Anchor" href="#volatile和synchronized的区别"></a> volatile和synchronized的区别</h3>
-<p>首先理解线程安全的两个方面：<strong>执行控制和内存可见</strong>。</p>
-<p>执行控制的目的是控制代码执行顺序及是否可以并发执行。</p>
-<p>内存可见指的是线程执行结果在内存中对其他线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。</p>
+<p>首先理解线程安全的两个方面：<strong>执行控制和内存可见</strong>。<br />
+执行控制的目的是控制代码执行顺序及是否可以并发执行。<br />
+内存可见指的是线程执行结果在内存中对其他线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。</p>
 <p><strong>synchronized关键字解决的是执行控制的问题</strong>，它会阻止其他线程获得当前对象的监控锁，这样使得当前被synchronized修饰的代码块无法被其他线程访问，也就无法并发执行。更为重要的是，synchronized还会创建<strong>内存屏障</strong>，内存屏障指令保证了所有CPU操作结果都会刷新到主存中，从而保证了内存可见性，<strong>同时也使得先获得这个锁的线程都happens-before与随后获得这个锁的线程。</strong></p>
 <p>volatile关键字解决的是内存可见的问题，该关键字会使得被修饰的变量读写都会直接刷新到主存中，这样就保证了内存可见。<strong>该种方式可以保证内存可见性但是对读取没有要求的需求中。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**使用volatile关键字要满足以下条件：**</span><br><span class="line">&#96;&#96;&#96;1. 对变量的写入操作不依赖与变量的当前值，或者可以确保只有单个线程在操作变量</span><br></pre></td></tr></table></figure>
-<p><code>2. 该变量没有包含在具有其他变量的不变式中</code></p>
+<blockquote>
+<p>使用volatile仅能实现对原始变量（如short、boolean、int等）操作的原子性，但是不能保证复合操作的原子性。例如，对于i++，实际上是由多个原子操作组成，如果使用多个线程去操作i++，则只能保证他们所操作的变量i在同一块内存区域，但是存在写入脏数据的情况。</p>
+</blockquote>
+<p><strong>使用volatile关键字要满足以下条件：</strong></p>
+<ul>
+<li>对变量的写入操作不依赖与变量的当前值，或者可以确保只有单个线程在操作变量</li>
+<li>该变量没有包含在具有其他变量的不变式中</li>
+</ul>
 <p><strong>总结如下：</strong><br />
 <img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/toyan.top/volatile%E4%B8%8Esynchronized%E7%9A%84%E5%8C%BA%E5%88%AB.png" alt="volatile与synchronized的区别" /></p>
 <h3 id="java内存模型的基础原理"><a class="markdownIt-Anchor" href="#java内存模型的基础原理"></a> Java内存模型的基础原理</h3>
