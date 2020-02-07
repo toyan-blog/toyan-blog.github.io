@@ -19,14 +19,13 @@
     noSupport: 'The browser does not support'
   }
 } </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="ToyanのBlog" type="application/atom+xml">
-</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#事务四大特性acid"><span class="toc-number">1.</span> <span class="toc-text"> 事务四大特性（ACID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务隔离性以及在mysql中的实践"><span class="toc-number">2.</span> <span class="toc-text"> 事务隔离性以及在MySQL中的实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如果没有隔离会发生以下情况"><span class="toc-number">2.1.</span> <span class="toc-text"> 如果没有隔离，会发生以下情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#事务的四个隔离级别"><span class="toc-number">2.2.</span> <span class="toc-text"> 事务的四个隔离级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql的两种存储引擎区别"><span class="toc-number">3.</span> <span class="toc-text"> MYSQL的两种存储引擎区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库的优化从sql语句优化和索引两个部分回答"><span class="toc-number">4.</span> <span class="toc-text"> 数据库的优化（从sql语句优化和索引两个部分回答）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁与悲观锁"><span class="toc-number">5.</span> <span class="toc-text"> 乐观锁与悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关系型数据库和非关系型数据库区别"><span class="toc-number">6.</span> <span class="toc-text"> 关系型数据库和非关系型数据库区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聚集索引与非聚集索引以及sql的查询优化技术"><span class="toc-number">7.</span> <span class="toc-text"> 聚集索引与非聚集索引以及SQL的查询优化技术</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">17</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">14</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">数据库总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-08-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">基础知识总结</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">3.4k</span><span class="post-meta__separator">|</span><span>Reading time: 10 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="事务四大特性acid"><a class="markdownIt-Anchor" href="#事务四大特性acid"></a> 事务四大特性（ACID）</h2>
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#事务四大特性acid"><span class="toc-number">1.</span> <span class="toc-text"> 事务四大特性（ACID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务隔离性以及在mysql中的实践"><span class="toc-number">2.</span> <span class="toc-text"> 事务隔离性以及在MySQL中的实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql的两种存储引擎区别"><span class="toc-number">3.</span> <span class="toc-text"> MYSQL的两种存储引擎区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库的优化从sql语句优化和索引两个部分回答"><span class="toc-number">4.</span> <span class="toc-text"> 数据库的优化（从sql语句优化和索引两个部分回答）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁与悲观锁"><span class="toc-number">5.</span> <span class="toc-text"> 乐观锁与悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关系型数据库和非关系型数据库区别"><span class="toc-number">6.</span> <span class="toc-text"> 关系型数据库和非关系型数据库区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聚集索引与非聚集索引以及sql的查询优化技术"><span class="toc-number">7.</span> <span class="toc-text"> 聚集索引与非聚集索引以及SQL的查询优化技术</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">17</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">14</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">数据库总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-08-28</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">基础知识总结</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">3.4k</span><span class="post-meta__separator">|</span><span>Reading time: 10 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="事务四大特性acid"><a class="markdownIt-Anchor" href="#事务四大特性acid"></a> 事务四大特性（ACID）</h2>
 <p>数据库事务是指作为单个逻辑工作单元执行的一系列操作，这些操作要么全做要么全不做，是一个不可分割的工作单位。</p>
 <ol>
 <li>原子性(Atomicity)<br />
 事务的原子性是指，事务中包含的程序作为数据库的逻辑工作单位，它所做的对数据的修改操作要么全部执行，要么完全不执行。这种特性称为原子性。</li>
 <li>一致性(Consistency)<br />
-事务一致性指的是在一个事务执行之前和执行之后数据库都必须处于一致性状态。这种特性称为事务的一致性。假如数据库的状态满足所有的完整性约束，就说该数据库是一致的。<br />
-例如完整性约束：a + b = 10，一个事物改变了a，那么b也随之改变。</li>
+事务一致性指的是在一个事务执行之前和执行之后数据库都必须处于一致性状态。这种特性称为事务的一致性。假如数据库的状态满足所有的完整性约束，就说该数据库是一致的。例如完整性约束：a + b = 10，一个事物改变了a，那么b也随之改变。</li>
 <li>分离性(也称为独立性，lsolation)<br />
 分离性指并发的事务是相互隔离的。即一个事物内部的操作及正在操作的数据必须封锁起来，不被其他企图进行修改的事务看到。假如并发交叉执行的事务没有任何限制，操纵相关的共享对象的多个并发事务的执行可能引起异常。</li>
 <li>持久性(Durability)<br />
@@ -35,20 +34,26 @@
 <h2 id="事务隔离性以及在mysql中的实践"><a class="markdownIt-Anchor" href="#事务隔离性以及在mysql中的实践"></a> 事务隔离性以及在MySQL中的实践</h2>
 <p>数据库事务是指作为单个逻辑工作单元执行的一系列操作，要么全部执行，要么全部不执行。一方面，当多个应用程序并发访问数据库时，事务可以在应用程序间提供一个隔离方法，防止互相干扰；另一方面，事务为数据库操作序列提供了一个从失败恢复正常的方法。</p>
 <p>当多个线程都开启事务操作数据库中的数据时，数据库系统要能进行隔离操作，以保证各个线程获取数据的准确性。</p>
-<h3 id="如果没有隔离会发生以下情况"><a class="markdownIt-Anchor" href="#如果没有隔离会发生以下情况"></a> 如果没有隔离，会发生以下情况</h3>
+<ol>
+<li>
+<p>如果没有隔离，会发生以下情况</p>
 <ul>
 <li>脏读：对于两个事务T1、T2，T1读取了已经被T2更新但还没有提交的字段，之后，若T2回滚，T1读取到的内容就是临时无效的内容。</li>
 <li>不可重复读：对于事务T1、T2，T1需要读取一个字段两次，在第一次和第二次读取之间，T2更新了该字段，导致T1第二次读取到的内容值不同。</li>
 <li>幻读：事务A读取与搜索条件相匹配的若干行。事务B以插入或删除行等方式来修改事务A的结果集，然后再提交。幻读与不可重复读之间的区别是幻读强调的是新增或删除，而不可重复读强调的是修改。比如Mary两次查工资，中间有人改过工资，则两次结果不一样，这就是不可重复读。Mary要查工资一千的人数，第一次查到了10个，中间有人增加了一条工资为一千的人，下次查的时候就变成了11个，好像第一次查询的是幻觉一样。</li>
 </ul>
-<h3 id="事务的四个隔离级别"><a class="markdownIt-Anchor" href="#事务的四个隔离级别"></a> 事务的四个隔离级别</h3>
-<p>读未提交、读已提交、可重复读、串行化。四个级别增强逐渐增强，每个级别解决上个级别的一个问题。</p>
+</li>
+<li>
+<p>事务的四个隔离级别<br />
+读未提交、读已提交、可重复读、串行化。四个级别增强逐渐增强，每个级别解决上个级别的一个问题。</p>
 <ul>
 <li>读未提交：另一个事务修改了数据，但尚未提交，而本事务中的select会读到这些未被提交的数据（脏读）。脏读是指另一个事务修改了数据，但尚未提交，而本事务中的select会读到这些未被提交的数据</li>
 <li>读已提交：本事务读取到的是最新的数据（其他事务提交后）。问题是，在同一事务里，前后两次相同的select会读到不同的结果（不可重复读）。不可重复读是指同一个事务执行过程中，另外一个事务提交了新数据，因此本事务先后两次读到的数据结果会不一致。</li>
 <li>可重复读：在同一个事务里，select的结果是事务开始时间点的状态，同样的select操作读到的结果会是一致的，但是有幻读现象。可重复读保证了同一个事务里，查询的结果都是事务开始时的状态（一致性）。但是，如果另一个事务同时提交了新数据，本事务再更新时，就会发现了这些新数据，貌似之前读到的数据都是幻觉，这就是幻读。</li>
 <li>串行化：所有事务只能一个接一个串行执行，不能并行</li>
 </ul>
+</li>
+</ol>
 <p><strong>隔离级别的选择</strong><br />
 MySQL支持四种隔离级别，默认的是可重复读</p>
 <h2 id="mysql的两种存储引擎区别"><a class="markdownIt-Anchor" href="#mysql的两种存储引擎区别"></a> MYSQL的两种存储引擎区别</h2>
@@ -65,21 +70,21 @@ MyISAM相对简单，所以在效率上要优于InnoDB，小型应用可以考�
 </ul>
 <h2 id="数据库的优化从sql语句优化和索引两个部分回答"><a class="markdownIt-Anchor" href="#数据库的优化从sql语句优化和索引两个部分回答"></a> 数据库的优化（从sql语句优化和索引两个部分回答）</h2>
 <ol>
-<li>只返回需要的数据</li>
-</ol>
+<li>
+<p>只返回需要的数据</p>
 <ul>
 <li>不要写select * 的语句</li>
 <li>合理写where子句，不要写没有where的SQL语句</li>
 </ul>
-<ol start="2">
-<li>尽量少做重复的工作</li>
-</ol>
+</li>
+<li>
+<p>尽量少做重复的工作</p>
 <ul>
 <li>可以合并一些SQL语句</li>
 </ul>
-<ol start="3">
-<li>适当建立索引（不是越多越好）但以下几点会进行全表扫描</li>
-</ol>
+</li>
+<li>
+<p>适当建立索引（不是越多越好）但以下几点会进行全表扫描</p>
 <ul>
 <li>左模糊查询‘%…’</li>
 <li>使用了不等操作符!=</li>
@@ -89,21 +94,23 @@ MyISAM相对简单，所以在效率上要优于InnoDB，小型应用可以考�
 <li>对于创建的复合索引（从最左边开始组合），查询条件用到的列必须从左边开始不能间隔。否则无效，复合索引的结构与电话簿类似</li>
 <li>全文索引：当对于文件建立了一个以词库为目录的索引（文件大全文索引比模糊匹配效果好）</li>
 </ul>
-<ol start="4">
-<li>使用join代替子查询</li>
-<li>使用union代替手动创建临时表</li>
+</li>
+<li>
+<p>使用join代替子查询</p>
+</li>
+<li>
+<p>使用union代替手动创建临时表</p>
+</li>
 </ol>
 <h2 id="乐观锁与悲观锁"><a class="markdownIt-Anchor" href="#乐观锁与悲观锁"></a> 乐观锁与悲观锁</h2>
-<p>当并发事务同时访问一个资源时，有可能导致数据不一致，因此需要一种机制来将数据访问顺序化，以保证数据库数据的一致性。锁就是其中一种机制。<br />
-在计算机科学中，锁时在执行多线程时用于强行限制资源访问的同步机制，即用于在并发控制保证对互斥要求的满足。<br />
-在数据库的锁机制中，数据库管理系统中的并发控制的任务是确保在多个事务同时存取数据库中同一数据时不破坏事务的隔离性和统一性以及数据库的统一性。<br />
-乐观并发控制（乐观锁）和悲观并发控制（悲观锁）是并发控制主要采用的技术手段。<br />
-悲观锁是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作对某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。主要用于数据争用激烈的环境，以及发生冲突时使用锁保护数据的成本要低于该锁冲突的操作。<br />
-悲观锁的流程：在对任意记录进行修改前，先尝试为该记录加上排他锁；如果加锁失败，说明该记录正在被修改，那么当前查询可能要等待或者抛出异常。如果成功加锁，那么就可以对记录做修改，事务完成后就会解锁。期间有任何对该记录做修改或加排他锁的操作，都会等待我们解锁或者直接抛出异常。<br />
-悲观锁的缺点：悲观并发控制实际上是“先取锁再访问”的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数据。<br />
-乐观锁，它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各种影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，在没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。<br />
-相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。实现数据版本有两种方式，<strong>第一种是使用版本号，第二种是使用时间戳</strong>。<br />
-乐观并发控制相信事务之间的数据竞争(data race)的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会产生任何锁和死锁。但如果直接简单这么做，还是有可能会遇到不可预期的结果，例如两个事务都读取了数据库的某一行，经过修改以后写回数据库，这时就遇到了问题。</p>
+<p>当并发事务同时访问一个资源时，有可能导致数据不一致，因此需要一种机制来将数据访问顺序化，以保证数据库数据的一致性。锁就是其中一种机制。在计算机科学中，锁时在执行多线程时用于强行限制资源访问的同步机制，即用于在并发控制保证对互斥要求的满足。在数据库的锁机制中，数据库管理系统中的并发控制的任务是确保在多个事务同时存取数据库中同一数据时不破坏事务的隔离性和统一性以及数据库的统一性。</p>
+<p>乐观并发控制（乐观锁）和悲观并发控制（悲观锁）是并发控制主要采用的技术手段。</p>
+<p>悲观锁是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作对某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。主要用于数据争用激烈的环境，以及发生冲突时使用锁保护数据的成本要低于该锁冲突的操作。</p>
+<p>悲观锁的流程：在对任意记录进行修改前，先尝试为该记录加上排他锁；如果加锁失败，说明该记录正在被修改，那么当前查询可能要等待或者抛出异常。如果成功加锁，那么就可以对记录做修改，事务完成后就会解锁。期间有任何对该记录做修改或加排他锁的操作，都会等待我们解锁或者直接抛出异常。</p>
+<p>悲观锁的缺点：悲观并发控制实际上是“先取锁再访问”的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数据。</p>
+<p>乐观锁，它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各种影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，在没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
+<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本。实现数据版本有两种方式，<strong>第一种是使用版本号，第二种是使用时间戳</strong>。</p>
+<p>乐观并发控制相信事务之间的数据竞争(data race)的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会产生任何锁和死锁。但如果直接简单这么做，还是有可能会遇到不可预期的结果，例如两个事务都读取了数据库的某一行，经过修改以后写回数据库，这时就遇到了问题。</p>
 <h2 id="关系型数据库和非关系型数据库区别"><a class="markdownIt-Anchor" href="#关系型数据库和非关系型数据库区别"></a> 关系型数据库和非关系型数据库区别</h2>
 <p>一般非关系数据库是基于CAP模型，而传统的关系型数据库是基于ACID模型的</p>
 <ol>
@@ -118,8 +125,7 @@ MyISAM相对简单，所以在效率上要优于InnoDB，小型应用可以考�
 <h2 id="聚集索引与非聚集索引以及sql的查询优化技术"><a class="markdownIt-Anchor" href="#聚集索引与非聚集索引以及sql的查询优化技术"></a> 聚集索引与非聚集索引以及SQL的查询优化技术</h2>
 <p>聚集索引：聚集索引的顺序就是数据的物理存储顺序；<br />
 非聚集索引：索引顺序与数据物理排列顺序无关。<br />
-正因为如此，所以一个表最多只能有一个聚簇索引。<br />
-简单来说，聚簇索引的叶子节点就是数据节点，非聚簇索引的叶节点仍然为索引节点，只不过有一个指针指向对应的数据块。</p>
+正因为如此，所以一个表最多只能有一个聚簇索引。简单来说，聚簇索引的叶子节点就是数据节点，非聚簇索引的叶节点仍然为索引节点，只不过有一个指针指向对应的数据块。</p>
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Toyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://toyan.top/database-summary/">https://toyan.top/database-summary/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/alipay.jpeg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/wechat.jpeg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share pull-right"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/view-for-internet/"><i class="fa fa-chevron-left">  </i><span>关于互联网行业的一些看法（摘抄）</span></a></div><div class="next-post pull-right"><a href="/algorithm-sort/"><span>排序算法</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
   clientID: '64bf96f3f30de518911b',
   clientSecret: '2b721d1728859b321e4f4533bd870be019c30c37',
