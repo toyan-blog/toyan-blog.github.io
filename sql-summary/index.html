@@ -42,21 +42,19 @@
 <ol>
 <li>mysql使用concat进行字符串连接</li>
 <li>SQL语句中的通配符：下划线代表一个任意的字符，百分号代表任意多个字符</li>
-<li>数据库函数</li>
-</ol>
+<li>数据库函数
 <ul>
 <li>ifnull(expr1, expr2)，如果expr1为null，则返回expr2，否则返回expr1</li>
 <li>nullif(expr1, expr2)，如果expr1和expr2相等，则返回null，否则返回expr2</li>
 <li>if(expr1, expr2, expr3)，如果expr1为true，不等于0，且不等于null，则返回expr2，否则返回expr3</li>
 <li>isnull(expr1)，判断expr1是否为null</li>
 </ul>
-<ol start="4">
-<li>分组与组函数：avg、count、max、min和sum</li>
-</ol>
+</li>
+<li>分组与组函数：avg、count、max、min和sum
 <ul>
 <li>having子句：不能在where子句中过滤组，where子句仅用于过滤行。过滤组必须使用having子句；不能在where子句中使用组函数，having子句才可以使用组函数</li>
 </ul>
-<ol start="5">
+</li>
 <li>多表连接查询： 查询用的多个数据表显式使用xxx join连接，而不是直接依次排列在from之后，from之后只需要放一个数据表；连接条件不再放在where之后，而是提供了专门的连接条件子句</li>
 </ol>
 <ul>
