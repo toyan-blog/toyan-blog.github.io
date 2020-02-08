@@ -220,7 +220,7 @@
     
     
     <entry>
-      <title>spring-transactional</title>
+      <title>Spring中常用的两种事务配置方式以及事务的传播性、隔离级别</title>
       <link href="/spring-transactional/"/>
       <url>/spring-transactional/</url>
       
