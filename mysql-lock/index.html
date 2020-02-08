@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="select加锁分析MySQL"><meta name="keywords" content="SQL"><meta name="author" content="Toyan"><meta name="copyright" content="Toyan"><title>select加锁分析MySQL | ToyanのBlog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c61658fe357dc669ee95b5bd4e25caad";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="dns-prefetch" href="http://ta.qq.com"><script>(function() {
+   var hm = document.createElement("script");
+   hm.src = "https://tajs.qq.com/stats?sId=66513922";
+   var s = document.getElementsByTagName("script")[0];
+   s.parentNode.insertBefore(hm, s);
+ })();</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="ToyanのBlog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.</span> <span class="toc-text"> 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text"> 正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁类型"><span class="toc-number">2.1.</span> <span class="toc-text"> 锁类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#意向锁存在的目的"><span class="toc-number">2.2.</span> <span class="toc-text"> 意向锁存在的目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加锁算法"><span class="toc-number">2.3.</span> <span class="toc-text"> 加锁算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快照读和当前读"><span class="toc-number">2.4.</span> <span class="toc-text"> 快照读和当前读</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析"><span class="toc-number">3.</span> <span class="toc-text"> 分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rcru-条件列非索引"><span class="toc-number">3.1.</span> <span class="toc-text"> RC&#x2F;RU + 条件列非索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rcru-条件列是聚簇索引"><span class="toc-number">3.2.</span> <span class="toc-text"> RC&#x2F;RU + 条件列是聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rcru-条件列是非聚簇索引"><span class="toc-number">3.3.</span> <span class="toc-text"> RC&#x2F;RU + 条件列是非聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rrserializable-条件列非索引"><span class="toc-number">3.4.</span> <span class="toc-text"> RR&#x2F;Serializable + 条件列非索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rrserializable-条件列是聚簇索引"><span class="toc-number">3.5.</span> <span class="toc-text"> RR&#x2F;Serializable + 条件列是聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rrserializable-条件列是非聚簇索引"><span class="toc-number">3.6.</span> <span class="toc-text"> RR&#x2F;Serializable + 条件列是非聚簇索引</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/avatar.jpeg"></div><div class="author-info__name text-center">Toyan</div><div class="author-info__description text-center">Email: tonganhao1103@gmail.com</div><div class="follow-button"><a href="https://github.com/toyan-blog" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">25</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">19</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">25</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://molunerfinn.com/hexo-theme-melody-doc/" target="_blank" rel="noopener">hexo-theme-melody</a><a class="author-info-links__name text-center" href="https://molunerfinn.com/" target="_blank" rel="noopener">Molunerfinn</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">ToyanのBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">select加锁分析MySQL</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-09-05</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Mysql/">Mysql</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">3.9k</span><span class="post-meta__separator">|</span><span>Reading time: 14 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> = ?</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> &lt; ?</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> = ? <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> &lt; ? <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> = ? <span class="keyword">for</span> <span class="keyword">update</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span> &lt; ? <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>要知道以上的区别，首先要知道以下问题</p>
+<ul>
+<li>当前事务隔离级别是什么</li>
+<li>id列是否存在索引</li>
+<li>如果存在索引是聚簇索引还是非聚簇索引呢？</li>
+</ul>
+<h2 id="正文"><a class="markdownIt-Anchor" href="#正文"></a> 正文</h2>
+<ul>
+<li>innodb一定存在聚簇索引，默认以主键作为聚簇索引</li>
+<li>有几个索引，就有几棵B+树（不考虑hash索引的情形）</li>
+<li>聚簇索引的叶子节点为磁盘上的真实数据。非聚簇索引的叶子节点还是索引，指向聚簇索引B+树</li>
+</ul>
+<h3 id="锁类型"><a class="markdownIt-Anchor" href="#锁类型"></a> 锁类型</h3>
+<ul>
+<li>共享锁(S锁)：假设事务T1对数据A加上共享锁，那么事务T2可以读数据A，<strong>不能</strong>修改数据A</li>
+<li>排他锁(X锁)：假设事务T1对数据A加上共享锁，那么事务T2<strong>不能</strong>读数据A，<strong>不能</strong>修改数据A</li>
+</ul>
+<p>​我们通过<code>update</code>、<code>delete</code>等语句加上的锁都是行级别的锁。只有<code>LOCK TABLE … READ</code>和<code>LOCK TABLE … WRITE</code>才能申请表级别的锁。</p>
+<ul>
+<li>意向共享锁(IS锁)：一个事务在获取（任何一行/或者全表）S锁之前，一定会先在所在的表上加IS锁</li>
+<li>意向排他锁(IX锁)：一个事务在获取（任何一行/或者全表）X锁之前，一定会先在所在的表上加IX锁</li>
+</ul>
+<h3 id="意向锁存在的目的"><a class="markdownIt-Anchor" href="#意向锁存在的目的"></a> 意向锁存在的目的</h3>
+<p>假设事务T1，用X锁来锁住了表上的几条记录，那么此时表上存在IX锁，即意向排他锁，那么此时事务T2要进行LOCK TABLE…WRITE的表级别锁的请求，可以直接根据意向锁是否存在而判断是否有锁冲突。</p>
+<h3 id="加锁算法"><a class="markdownIt-Anchor" href="#加锁算法"></a> 加锁算法</h3>
+<ul>
+<li>Record Locks：简单翻译为行锁，注意了，该锁是对索引记录进行加锁！锁是在加索引上而不是行上。注意了，innodb一定存在聚簇索引，因此行锁最终都会落到聚簇索引上</li>
+<li>Gap Locks：简单翻译为间隙锁，是对索引的间隙加锁，其目的只有一个，防止其他事物插入数据。在Read Committed隔离级别下，不会使用间隙锁。隔离级别比Read Committed低的情况下，也不会使用间隙锁，如隔离级别为Read UnCommitted时，也不存在间隙锁。当隔离级别为Repeatable Read和Serializable时，就会存在间隙锁</li>
+<li>Next-Key Locks：这个理解为Record Lock+索引前面的Gap Lock。记住了，锁住的是索引前面的间隙！比如一个索引包含值，10、11、13和20。那么，间隙锁的范围如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(negative infinity, 10]</span><br><span class="line">(10, 11]</span><br><span class="line">(11, 13]</span><br><span class="line">(13, 20]</span><br><span class="line">(20, positive infinity)</span><br></pre></td></tr></table></figure>
+<h3 id="快照读和当前读"><a class="markdownIt-Anchor" href="#快照读和当前读"></a> 快照读和当前读</h3>
+<p>在mysql中select分为快照读和当前读，执行下面的语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span>=?;</span><br></pre></td></tr></table></figure>
+<p>执行的是快照读，读的是数据库记录的快照版本，是不加锁的（这种说法在隔离级别为Serializable中不成立，后面我会补充）<br />
+那么，执行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span>=? <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>;</span><br></pre></td></tr></table></figure>
+<p>会对读取记录加S锁（共享锁），执行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">id</span>=? <span class="keyword">for</span> <span class="keyword">update</span>；</span><br></pre></td></tr></table></figure>
+<p>会对读取记录加X锁（排他锁），那么</p>
+<p><strong>加的是表锁还是行锁呢？</strong></p>
+<p>针对这点，下面是事务的四个隔离级别，他们由弱到强如下所示：</p>
+<ul>
+<li>Read Uncommitted(RU)：读未提交，一个事务可以读到另一个事务未提交的数据！</li>
+<li>Read Committed(RC)：读已提交，一个事务可以读到另一个事务已提交的数据</li>
+<li>Repeatable Read(RR)：可重复读，加入间隙锁，一定程度上避免了幻读的产生！注意了，只是一定程度上，并没有完全避免！另外记住从该级别才开始加入间隙锁</li>
+<li>Serializable：串行化，该级别下读写串行化，且所有的select语句后都自动加上lock in share mode，即使用了共享锁。因此在该隔离级别下，使用的是当前读，而不是快照读</li>
+</ul>
+<p>那么关于是表锁还是行锁，大家可以看到网上最流传的一个说法是这样的：</p>
+<blockquote>
+<p>InnoDB行锁是通过给索引上的索引项加锁来实现的，这一点Mysql与Oracle不同，后者是通过在数据块中对相应数据行加锁来实现。InnoDB这种行锁实现特点意味着：只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁！</p>
+</blockquote>
+<blockquote>
+<p>上面这句话有两处错误！<br />
+错误一：并不是用表锁来实现锁表的操作，而是利用了<code>Next-Key Locks</code>，也可以理解为是用了行锁+间隙锁来实现锁表的操作！为了便于说明，举例如下，其中，pid为主键索引。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>pid(int)</th>
+<th>name(varchar)</th>
+<th>num(int)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>aaa</td>
+<td>100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>bbb</td>
+<td>200</td>
+</tr>
+<tr>
+<td>7</td>
+<td>ccc</td>
+<td>200</td>
+</tr>
+</tbody>
+</table>
+<p>执行语句（name列无索引）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'aaa'</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>那么此时在pid=1,2,7这三条记录上存在行锁（把行锁住了）。另外，在(-∞,1)(1,2)(2,7)(7,+∞)上存在间隙锁（把间隙锁住了）。因此，给人一种整个表锁住的错觉！</p>
+<p><code>ps:</code>对该结论有疑问的，可自行执行<code>show engine innodb status;</code>语句进行分析。</p>
+<blockquote>
+<p>错误二：所有文章都不提隔离级别</p>
+</blockquote>
+<p>锁表是通过行锁+间隙锁实现的。由于RU和RC都不存在间隙锁，因此，该说法只在RR和Serializable中成立，如果隔离级别为RU和RC，无论条件列上是否有索引，都不会锁表，只锁行</p>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<p>假设有下表如下，pid为主键索引</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">pid(int)</th>
+<th style="text-align:center">name(varchar)</th>
+<th style="text-align:center">num(int)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">aaa</td>
+<td style="text-align:center">100</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">bbb</td>
+<td style="text-align:center">200</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">bbb</td>
+<td style="text-align:center">300</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">ccc</td>
+<td style="text-align:center">200</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rcru-条件列非索引"><a class="markdownIt-Anchor" href="#rcru-条件列非索引"></a> RC/RU + 条件列非索引</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，是快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，是快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>当num=200，有两条记录。这两条记录对应的pid=2、7，因此在pid=2、7的聚餐索引上加行级S锁，采用当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>当num&gt;200，有一条记录。这条记录对应的pid=3，因此在pid=3的聚簇索引上加上行级S锁，采用当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>当num=200，有两条记录。这两条记录对应的pid=2、7，因此在pid=2、7的聚簇索引上加行级X锁，采用当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>当num&gt;200，有一条记录。这条记录对应的pid=3，因此在pid=3的聚簇索引上加上行级X锁，采用当前读</p>
+<h3 id="rcru-条件列是聚簇索引"><a class="markdownIt-Anchor" href="#rcru-条件列是聚簇索引"></a> RC/RU + 条件列是聚簇索引</h3>
+<p>大家知道条件列是主键列，因此pid用的就是聚簇索引，此情况其实和<strong>RC/RU + 条件列非索引</strong>情况是类似的</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，是快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，是快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>在pid=2的聚簇索引上，加S锁，为当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>在pid=3、7的聚簇索引上，加S锁，为当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>在pid=2的聚簇索引上，加X锁，为当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>在pid=3、7的聚簇索引上，加X锁，为当前读</p>
+<blockquote>
+<p>为什么条件列加不加索引，加锁情况都是一样的？</p>
+<p>Ok，其实是不一样的。在RC/RU隔离级别中，Mysql Server做了优化。在条件列没有索引的情况下，尽管通过聚簇索引来扫描全表，进行全表加锁。但是，Mysql Server层会进行过滤并把不符合条件的锁当即释放掉，因此你看起来最终结果都是一样的。但是<strong>RC/RU + 条件列非索引</strong>比本例多了一个释放不符合条件的锁的过程！</p>
+</blockquote>
+<h3 id="rcru-条件列是非聚簇索引"><a class="markdownIt-Anchor" href="#rcru-条件列是非聚簇索引"></a> RC/RU + 条件列是非聚簇索引</h3>
+<p>我们在num列上建立非唯一索引，此时有一颗聚簇索引（主键索引，pid）形成的B+索引树，其叶子节点为硬盘上的真实数据。以及另一颗非聚簇索引（非唯一索引num）形成的B+索引树，其叶子节点依然为索引节点，保存了num列的字段值，和对应的聚簇索引</p>
+<p>接下来分析开始</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>不加任何锁，快照读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>当num=200，由于num列上有索引，因此先在num=200的两条索引记录上加行级S锁。接着，去聚簇索引树上查询，这两条记录对应的pid=2、7，因此在pid=2、7的聚簇索引上加行级S锁，采用当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>当num&gt;200，由于num列上有索引，因此先在符合条件的num=300的一条索引记录上加行级S锁。接着，去聚簇索引树上查询，这条记录对应的pid=3，因此在pid=3的聚簇索引上加行级S锁，采用当前读</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>当num=200，由于num列上有索引，因此先在num=200的两条索引记录上加行级X锁。接着，去聚簇索引树上查询，这两条记录对应的pid=2、7，因此在pid=2、7的聚簇索引上加行级X锁，采用当前读</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tab;e where num &gt; 200 for update</span><br></pre></td></tr></table></figure>
+<p>当num&gt;200，由于num列上有索引，因此先在符合条件的num=300的一条索引记录上加行级X锁。接着，去聚簇索引树上查询，这条记录对应的pid=3，因此在pid=3的聚簇索引上加行级X锁，采用当前读</p>
+<h3 id="rrserializable-条件列非索引"><a class="markdownIt-Anchor" href="#rrserializable-条件列非索引"></a> RR/Serializable + 条件列非索引</h3>
+<p>RR级别需要多考虑的就是gap lock，它的加锁特征在于，无论你怎么查都是锁全表，如下所示，分析开始</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读。在Serializable级别下，在pid=1、2、3、7（全表所有记录）的聚簇索引上加S锁。并且在聚簇索引的所有间隙(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读。在Serializable级别下，在pid=1、2、3、7（全表所有记录）的聚簇索引上加S锁。并且在聚簇索引的所有间隙(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>在pid=1、2、3、7（全表所有记录）的聚簇索引上加S锁，并且在聚簇索引的所有间隔(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>在pid=1、2、3、7（全表所有记录）的聚簇索引上加S锁，并且在聚簇索引的所有间隔(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>在pid=1、2、3、7（全表所有记录）的聚簇索引上加X锁，并且在聚簇索引的所有间隔(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>在pid=1、2、3、7（全表所有记录）的聚簇索引上加X锁，并且在聚簇索引的所有间隔(-∞,1)(1,2)(2,3)(3,7)(7,+∞)加gap lock</p>
+<h3 id="rrserializable-条件列是聚簇索引"><a class="markdownIt-Anchor" href="#rrserializable-条件列是聚簇索引"></a> RR/Serializable + 条件列是聚簇索引</h3>
+<p>大家都知道pid是主键列，因此pid用的就是聚簇索引。该情况的加锁特征在于，如果where后的条件为精确查询（=的情况），那么只存在record lock。如果where后的条件为范围查询（&gt;或&lt;的情况），那么存在的是record lock + gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读；在Serializable级别下，是当前读，在pid=2的聚簇索引上加S锁，不存在gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读。在Serializable级别下，是当前读，在pid=3、7的聚簇索引上加S锁，在(2,3)(3,7)(7,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=2的聚簇索引上加S锁，不存在gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=3、7的聚簇索引上加S锁，在(2,3)(3,7)(7,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">2</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=2的聚簇索引上加X锁</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">2</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=3、7的聚簇索引上加X锁，在(2,3)(3,7)(7,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid = <span class="number">6</span> [<span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>|<span class="keyword">for</span> <span class="keyword">update</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>注意了，pid=6是不存在的列，这种情况会在（3，7）加上gap lock</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> pid &gt; <span class="number">18</span> [<span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>|<span class="keyword">for</span> <span class="keyword">update</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>注意了，pid&gt;18，查询结果是空的。在这种情况下，是在(7,+∞)上加gap lock</strong></p>
+<h3 id="rrserializable-条件列是非聚簇索引"><a class="markdownIt-Anchor" href="#rrserializable-条件列是非聚簇索引"></a> RR/Serializable + 条件列是非聚簇索引</h3>
+<blockquote>
+<p>这里是非聚簇索引，需要区分是否为唯一索引。因为如果是非唯一索引，间隙锁的加锁方式是有区别的<br />
+先说一下，唯一索引的情况。如果是唯一索引，情况和RR/Serializable+条件列是聚簇索引类似，唯一有区别的是：<strong>这个时候有两颗索引树，加锁是加在对应的非聚簇索引树和聚簇索引树上</strong><br />
+下面说一下，非聚簇索引是非唯一索引的情况，它和唯一索引的区别就是通过索引进行精确查询后，不仅存在record lock，还存在gap lock。而通过唯一索引进行精确查询后，只存在record lock，老规矩在num列建立非唯一索引</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读。在Serializable下，是当前读，在pid=2、7的聚簇索引上加S锁，在num=200的非聚簇索引上加S锁，在(100,200)(200,300)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>在RR级别下，不加任何锁，是快照读。在Serializable级别下，是当前读，在pid=3的聚簇索引上加S锁，在num=300的非聚集索引上加S锁。在(200,300)(300,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=2、7的聚簇索引上加S锁，在num=200的非聚簇索引上加S锁，在(100,200)(200,300)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=3的聚簇索引上加S锁，在num=300的非聚集索引上加S锁，在(200,300)(300,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=2的聚簇索引上加S锁，在num=200的非聚簇索引上加X锁，在(200,300)(300,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">200</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p>是当前读，在pid=3的聚簇索引上加S锁，在num=300的非聚簇索引上加X锁，在在(200,300)(300,+∞)加上gap lock</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> = <span class="number">250</span> [<span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>|<span class="keyword">for</span> <span class="keyword">update</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>注意了，num=250是不存在的列，这种情况会在(200,300)上加gap lock</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">num</span> &gt; <span class="number">400</span> [<span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>|<span class="keyword">for</span> <span class="keyword">update</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>注意了，pid&gt;400，查询结果为空，在这种情况下，是在(400,+∞)上加gap lock</strong></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Toyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://toyan.top/mysql-lock/">https://toyan.top/mysql-lock/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SQL/">SQL</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/alipay.jpeg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/wechat.jpeg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share pull-right"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/mybatis-cache/"><i class="fa fa-chevron-left">  </i><span>Mybatis缓存机制</span></a></div><div class="next-post pull-right"><a href="/spring-transactional/"><span>spring-transactional</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '64bf96f3f30de518911b',
+  clientSecret: '2b721d1728859b321e4f4533bd870be019c30c37',
+  repo: 'toyan-blog.github.io',
+  owner: 'toyan-blog',
+  admin: 'toyan-blog',
+  id: md5(decodeURI(location.pathname)),
+  language: 'en'
+})
+gitalk.render('gitalk-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://toyandemachinelearning.oss-cn-shanghai.aliyuncs.com/public/blog.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2020 By Toyan</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" data-click="false"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>Powered by</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"superSample":2,"width":210,"height":420,"position":"left","hOffset":0,"vOffset":-20},"log":false,"tagMode":false});</script></body></html>
